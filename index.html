@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zona Total Música</title>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- CSS EXTERNO (OBLIGATORIO) -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ================= RESET ================= */
+    * {
+      margin: 0;
+      padding: 10px 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0d1a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ================= HERO (INTOCABLE) ================= */
+    .hero-music {
+      position: relative;
+      height: 55vh;
+      min-height: 380px;
+      max-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .hero-art-real {
+      position: absolute;
+      inset: -20%;
+      background: url("assets/onda-musical.jpeg") center/cover no-repeat;
+      animation: fondoVivo 16s ease-in-out infinite;
+      filter: saturate(1.25) contrast(1.05);
+
+    }
+
+    @keyframes fondoVivo {
+      0% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.15)
+      }
+
+      100% {
+        transform: scale(1)
+      }
+    }
+
+    /* ⛔ ERROR CORREGIDO: aquí había "..hero-vignette" */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle,
+          rgba(0, 0, 0, .15) 0%,
+          rgba(0, 0, 0, .45) 60%,
+          rgba(0, 0, 0, .75) 85%);
+      z-index: 2;
+    }
+
+    .hero-circle {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+          rgba(255, 255, 255, .18),
+          rgba(255, 255, 255, .04) 45%,
+          rgba(0, 0, 0, 0) 70%);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, .25) inset,
+        0 0 90px rgba(0, 0, 0, .9);
+      z-index: 3;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO (NO SE TOCA, SOLO VISUAL) -->
+  <section class="hero-music">
+    <div class="hero-art-real"></div>
+    <section class="hero-music">
+      <div class="hero-art-real"></div>
+
+      <!-- PARTÍCULAS MUSICALES -->
+      <canvas id="musicParticles"></canvas>
+    </section>
+
+  </section>
+
+
+  <!-- PORTADA EDITORIAL DE LA PÁGINA -->
+  <section class="page-intro">
+    <div class="page-intro-inner">
+      <h1 class="page-title">
+        ZONA TOTAL MÚSICA<br>
+
+      </h1>
+
+      <p class="page-tagline">
+        La plataforma donde el ritmo tiene identidad.
+      </p>
+    </div>
+  </section>
+
+  <!-- RESTO DE LA WEB -->
+  <div class="app">
+    <div class="sidebar" style="height: 100%; display: flex; flex-direction: column; row-gap: 12px;">
+      <aside class="sidebar">
+        <nav class="nav">
+          <a href="#" class="active">
+            <span class="nav-icon">🔍</span>
+            <span class="nav-text">Explorar</span>
+          </a>
+  
+          <a href="#" class="nav-item">
+            <span class="nav-icon">🎧</span>
+            <span class="nav-text">Géneros</span>
+          </a>
+  
+          <a href="#" class="nav-item">
+            <span class="nav-icon">📻</span>
+            <span class="nav-text">Playlists</span>
+          </a>
+  
+          <a href="#" class="nav-item">
+            <span class="nav-icon">🎤</span>
+            <span class="nav-text">Artistas</span>
+          </a>
+        </nav>
+      </aside>
+      
+      <div class="sidebar" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+        <p class="sidebar-quote" style="font-family: Georgia, 'Times New Roman', Times, serif; color: rgb(230, 148, 26); text-align: center;">
+          "Aquí la música ♪ tiene identidad."
+        </p>
+        <img src="assets/nota1.png" alt="">
+        <p class="sidebar-quote" style="font-family: Georgia, 'Times New Roman', Times, serif; color: rgb(219, 12, 226); text-align: center;">
+          "El tiempo es largo, pero la vida es corta ♫.".
+        </p>
+        <img src="assets/audifono1.png" alt="">
+        <p class="sidebar-quote" style="font-family: Georgia, 'Times New Roman', Times, serif; color: rgb(223, 202, 15); text-align: center;">
+          "La música ♩ es el arte de sonar con el corazón y vibrar con el alma."
+        </p>
+        <img src="assets/nota2.png" alt="">
+        <p class="sidebar-quote" style="font-family: Georgia, 'Times New Roman', Times, serif; color: aqua; text-align: center;">
+          "Donde las palabras se detienen, la música ♪ comienza a hablar".
+        </p>
+        <img src="assets/auriculares 2.png" alt="">
+        <p class="sidebar-quote" style="font-family: Georgia, 'Times New Roman', Times, serif; color: rgb(240, 10, 10); text-align: center;">
+          "Cada nota ♫ es un paso más hacia tu mejor versión."
+        </p>
+      </div>
+    </div>
+
+    <main class="content">
+      <section class="zt-top">
+        <h2 class="zt-section-title">Top Zona Total</h2>
+
+        <div class="zt-top-layout">
+
+          <article class="zt-top-main">
+            <span class="zt-rank">01</span>
+            <img src="assets/Cover-La Mejor Promocion En Cuba-5848-32-53..jpg" alt="Top 1">
+            <div class="zt-top-info">
+              <h3>Nombre de la Canción</h3>
+              <p>Artista Principal</p>
+            </div>
+          </article>
+
+          <div class="zt-top-side">
+            <article class="zt-top-mini">
+              <span class="zt-rank">02</span>
+              <img src="assets/Cover.jpg" alt="Top 2">
+              <div>
+                <h4>Canción</h4>
+                <p>Artista</p>
+              </div>
+            </article>
+
+            <article class="zt-top-mini">
+              <span class="zt-rank">03</span>
+              <img src="assets/Cover-La Mejor Promocion En Cuba-5848-32-53..jpg" alt="Top 3">
+              <div>
+                <h4>Canción</h4>
+                <p>Artista</p>
+              </div>
+            </article>
+
+            <article class="zt-top-mini">
+              <span class="zt-rank">04</span>
+              <img src="assets/Folder.jpg" alt="Top 3">
+              <div>
+                <h4>Canción</h4>
+                <p>Artista</p>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="section-title">Nuevos Lanzamientos</div>
+      <div class="albums">
+        <div class="album featured" data-title="Álbum 1"></div>
+        <div class="album" data-title="Álbum 2"></div>
+        <div class="album" data-title="Álbum 3"></div>
+        <div class="album" data-title="Álbum 4"></div>
+      </div>
+
+      <section class="zt-universes">
+        <h2 class="zt-section-title">Universos Musicales</h2>
+
+        <div class="zt-universe-grid">
+          <span class="zt-universe">Reggaetón</span>
+          <span class="zt-universe">Salsa</span>
+          <span class="zt-universe">Baladas</span>
+          <span class="zt-universe">Hip Hop</span>
+          <span class="zt-universe">Pop</span>
+          <span class="zt-universe">Electrónica</span>
+          <span class="zt-universe">House</span>
+          <span class="zt-universe">Rock</span>
+          <span class="zt-universe">Bachata</span>
+        </div>
+      </section>
+
+      <section class="zt-artists">
+        <h2 class="zt-section-title">Artistas en Foco</h2>
+
+        <div class="zt-artists-row">
+          <article class="zt-artist">
+            <img src="assets/artista1.jpg" alt="Artista 1">
+            <h3>Nombre Artista</h3>
+            <p>Género / Estilo</p>
+          </article>
+
+          <article class="zt-artist">
+            <img src="assets/artista2.jpg" alt="Artista 2">
+            <h3>Nombre Artista</h3>
+            <p>Género / Estilo</p>
+          </article>
+
+          <article class="zt-artist">
+            <img src="assets/artista3.jpg" alt="Artista 3">
+            <h3>Nombre Artista</h3>
+            <p>Género / Estilo</p>
+          </article>
+
+          <article class="zt-artist">
+            <img src="assets/artista4.jpg" alt="Artista 4">
+            <h3>Nombre Artista</h3>
+            <p>Género / Estilo</p>
+          </article>
+        </div>
+      </section>
+
+
+
+      <div class="section-title">Playlists Curadas</div>
+      <div class="playlists">
+        <div class="playlist" data-title="Hip Hop"></div>
+        <div class="playlist" data-title="Salsa"></div>
+        <div class="playlist" data-title="Romántico"></div>
+        <div class="playlist" data-title="Bachata"></div>
+      </div>
+    </main>
+  </div>
+
+  <section class="zt-manifesto">
+    <p class="zt-manifesto-text">
+      La música no se escucha.<br>
+      Se siente. Se vive. Se recuerda.
+      <span>Zona Total</span>
+    </p>
+  </section>
+
+  <footer class="footer">
+    Soporte: reynatrabajo@gmail.com<br>
+    © Zona Total Música
+  </footer>
+  
+  <script src="test.js"></script>
+  <script src="player.js"></script>
+  
+
+<!-- PLAYER DE PRUEBA (FASE 5.3) -->
+<div id="yt-player" style="width:1px;height:1px;overflow:hidden;"></div>
+
+</body>
+
+</html>
