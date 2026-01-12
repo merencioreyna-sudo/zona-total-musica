@@ -16,14 +16,26 @@ function loadYouTubeAPI() {
 
 const ZTPlayer = {
   tracks: [
-    {
-      id: "zt001",
-      title: "Nombre de la Canción",
-      artist: "Artista Principal",
-      youtubeId: "ca48oMV59LU"
+  {
+    id: "zt001",
+    title: "Provenza",
+    artist: "Karol G",
+    youtubeId: "ca48oMV59LU"
+  },
+  {
+    id: "zt002",
+    title: "TQG",
+    artist: "Karol G, Shakira",
+    youtubeId: "jZGpkLElSu8"
+  },
+  {
+    id: "zt003",
+    title: "BZRP Music Sessions #53",
+    artist: "Shakira",
+    youtubeId: "CocEMWdc7Ck"
+  }
+],
 
-    }
-  ],
 
   currentTrack: null,
 
@@ -84,5 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
