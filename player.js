@@ -50,9 +50,12 @@ const ZTPlayer = {
   },
 
   play() {
-    if (!this.currentTrack || !ytPlayer) return;
-    ytPlayer.loadVideoById(this.currentTrack.youtubeId);
-  }
+  if (!this.currentTrack || !ytPlayer) return;
+
+  ytPlayer.cueVideoById(this.currentTrack.youtubeId);
+  ytPlayer.playVideo();
+}
+
 };
 
 // API callback obligatorio
@@ -96,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
 
