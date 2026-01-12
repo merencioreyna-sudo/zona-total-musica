@@ -73,3 +73,16 @@ function onYouTubeIframeAPIReady() {
 document.addEventListener("DOMContentLoaded", () => {
   ZTPlayer.init();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("[data-track-id]").forEach(item => {
+    item.addEventListener("click", () => {
+      const trackId = item.dataset.trackId;
+      ZTPlayer.load(trackId);
+      ZTPlayer.play();
+      console.log("▶ Reproduciendo desde Top:", trackId);
+    });
+  });
+});
+
+
