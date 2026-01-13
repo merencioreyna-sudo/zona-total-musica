@@ -1,5 +1,3 @@
-alert("player.js cargado correctamente");
-
 // ===============================
 // ZONA TOTAL MÚSICA — PLAYER
 // FASE 5.3 — AUDIO REAL
@@ -16,25 +14,25 @@ function loadYouTubeAPI() {
 
 const ZTPlayer = {
   tracks: [
-  {
-    id: "zt001",
-    title: "Provenza",
-    artist: "Karol G",
-    youtubeId: "ca48oMV59LU"
-  },
-  {
-    id: "zt002",
-    title: "TQG",
-    artist: "Karol G, Shakira",
-    youtubeId: "jZGpkLElSu8"
-  },
-  {
-    id: "zt003",
-    title: "BZRP Music Sessions #53",
-    artist: "Shakira",
-    youtubeId: "CocEMWdc7Ck"
-  }
-],
+    {
+      id: "zt001",
+      title: "Provenza",
+      artist: "Karol G",
+      youtubeId: "ca48oMV59LU"
+    },
+    {
+      id: "zt002",
+      title: "TQG",
+      artist: "Karol G, Shakira",
+      youtubeId: "jZGpkLElSu8"
+    },
+    {
+      id: "zt003",
+      title: "BZRP Music Sessions #53",
+      artist: "Shakira",
+      youtubeId: "CocEMWdc7Ck"
+    }
+  ],
 
 
   currentTrack: null,
@@ -50,11 +48,11 @@ const ZTPlayer = {
   },
 
   play() {
-  if (!this.currentTrack || !ytPlayer) return;
+    if (!this.currentTrack || !ytPlayer) return;
 
-  ytPlayer.cueVideoById(this.currentTrack.youtubeId);
-  ytPlayer.playVideo();
-}
+    ytPlayer.stopVideo(); // 🔴 fuerza detener lo anterior
+    ytPlayer.loadVideoById(this.currentTrack.youtubeId);
+  }
 
 };
 
@@ -71,15 +69,9 @@ function onYouTubeIframeAPIReady() {
     },
     events: {
       onReady: () => {
-  ZTPlayer.load("zt001");
-  console.log("Player listo, esperando interacción");
-
-  document.body.addEventListener("click", () => {
-    ZTPlayer.play();
-    console.log("▶ Audio reproduciéndose tras click");
-  }, { once: true });
-}
-
+        ZTPlayer.load("zt001");
+        console.log("Player listo, esperando interacción");
+      }
     }
   });
 }
@@ -89,16 +81,21 @@ document.addEventListener("DOMContentLoaded", () => {
   ZTPlayer.init();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("[data-track-id]").forEach(item => {
-    item.addEventListener("click", () => {
-      const trackId = item.dataset.trackId;
-      ZTPlayer.load(trackId);
-      ZTPlayer.play();
-      console.log("▶ Reproduciendo desde Top:", trackId);
+document.querySelectorAll("[data-track-id]").forEach(item => {
+  item.addEventListener("click", () => {
+    const trackId = item.dataset.trackId;
+
+    ZTPlayer.load(trackId);
+    ytPlayer.loadVideoById({
+      videoId: ZTPlayer.currentTrack.youtubeId,
+      startSeconds: 0
     });
+
+    console.log("▶ Audio disparado por click directo:", trackId);
   });
 });
+
+
 
 
 
