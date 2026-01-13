@@ -1,1289 +1,151 @@
-:root{
-  --bg0:#06060a;
-  --bg1:#0b0c13;
-  --panel:#10111a;
-  --card:#151628;
-  --line:rgba(255,255,255,.09);
+// ===============================
+// ZONA TOTAL MÚSICA — PLAYER
+// FASE 5.5 — PLAYER VISIBLE EDITORIAL
+// ===============================
 
-  --txt:#f3f3f7;
-  --muted:rgba(255,255,255,.65);
+let ytPlayer = null;
+let isPlaying = false; // 👈 estado interno REAL
 
-  --goldA:#fff6c7;
-  --goldB:#ffd700;
-  --goldC:#f3d36b;
-
-  --r12:12px;
-  --r16:16px;
-  --shadow:0 22px 60px rgba(0,0,0,.45);
+// -------------------------------
+// Cargar API de YouTube
+// -------------------------------
+function loadYouTubeAPI() {
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
 }
 
-body{
-  background:
-    radial-gradient(1100px 700px at 30% 0%, rgba(255,215,0,.10), transparent 60%),
-    radial-gradient(900px 650px at 12% 85%, rgba(255,43,43,.10), transparent 60%),
-    linear-gradient(180deg, var(--bg1), var(--bg0));
+// -------------------------------
+// Mostrar player visible (EDITORIAL)
+// -------------------------------
+function showVisiblePlayer(track) {
+  const container = document.getElementById("zt-player-visible");
+  if (!container || !track) return;
+
+  container.classList.remove("zt-player-hidden");
+
+  const titleEl = container.querySelector(".zt-player-title");
+  const artistEl = container.querySelector(".zt-player-artist");
+
+  if (titleEl) titleEl.textContent = track.title;
+  if (artistEl) artistEl.textContent = track.artist;
 }
 
-/* ================= PAGE INTRO ================= */
+// -------------------------------
+// Core Player
+// -------------------------------
+const ZTPlayer = {
+  tracks: [
+    {
+      id: "zt001",
+      title: "Provenza",
+      artist: "Karol G",
+      youtubeId: "ca48oMV59LU"
+    },
+    {
+      id: "zt002",
+      title: "TQG",
+      artist: "Karol G, Shakira",
+      youtubeId: "jZGpkLElSu8"
+    },
+    {
+      id: "zt003",
+      title: "BZRP Music Sessions #53",
+      artist: "Shakira",
+      youtubeId: "CocEMWdc7Ck"
+    }
+  ],
 
-.page-intro{
-  padding: 10px;
-  background:
-    radial-gradient(circle at top, rgba(255,215,0,.14), transparent 10%),
-    linear-gradient(180deg, #0b0b13, #06060a);
-    align-items: center;
-    display: flex;
-}
+  currentTrack: null,
 
-.page-intro-inner{
-  max-width: 1100px;
-  margin: 0 auto;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}
+  init() {
+    loadYouTubeAPI();
+  },
 
-.page-title{
-  font-family:'Playfair Display',serif;
-  font-size: clamp(2.8rem, 5vw, 4.4rem);
-  letter-spacing: .3em;
-  line-height: 1.15;
-  color:#eaeaea;
-  
+  load(trackId) {
+    const track = this.tracks.find(t => t.id === trackId);
+    if (!track) return;
+    this.currentTrack = track;
+  },
 
-  text-shadow:
-    -2px -2px 0 #000,
-     2px -2px 0 #000,
-    -2px  2px 0 #000,
-     2px  2px 0 #000,
-     0 12px 26px rgba(0,0,0,.95);
-}
+  play() {
+    if (!this.currentTrack || !ytPlayer) return;
 
-.page-title span{
-  display:block;
-  background: linear-gradient(
-    180deg,
-    var(--goldA) 0%,
-    var(--goldB) 55%,
-    #d4a600 100%
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+    ytPlayer.stopVideo();
+    ytPlayer.loadVideoById({
+      videoId: this.currentTrack.youtubeId,
+      startSeconds: 0
+    });
 
-.page-tagline{
-  max-width: 520px;
-  font-size: 1.05rem;
-  color: rgba(255,255,255,.78);
-  line-height: 1.55;
-}
+    isPlaying = true;
+  },
 
-/* ================= LAYOUT ================= */
-
-.app{
-  display:grid;
-  grid-template-columns:240px 1fr;
-  gap:24px;
-  padding:40px;
-}
-
-.sidebar{
-  background:#10132a;
-  border-radius:22px;
-  padding:12px;
-}
-
-.nav a{
-  display:block;
-  padding:12px 14px;
-  border-radius:12px;
-  color:#fff;
-  text-decoration:none;
-  margin-bottom:6px;
-}
-
-.nav a:hover{
-  background:var(--goldB);
-  color:#000;
-}
-
-.content{
-  background:#0e1022;
-  border-radius:26px;
-  padding:10px 20px;
-}
-
-.section-title{
-  font-size:1.4rem;
-  
-  font-weight:700;
-  color:var(--goldC);
-}
-
-.albums,
-.playlists{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:20px;
-  
-}
-
-.album,
-.playlist{
-  background:#181b3a;
-  border-radius:18px;
-  padding:16px;
-  text-align:center;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-  padding:40px 20px;
-  text-align:center;
-  background:#000;
-  color:#aaa;
-}
-
-/* ===============================
-   HERO — PARTÍCULAS MUSICALES
-   =============================== */
-
-#musicParticles{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:2; /* por encima del arte, sin taparlo */
-}
-
-
-/* ===============================
-   HERO — NOTAS MUSICALES EN MOVIMIENTO
-   =============================== */
-
-.hero-music::after{
-  /*content: "♪  ♫  ♬  ♪  ♫  ♬";*/
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-
-  font-size: 18px;
-  letter-spacing: 60px;
-  line-height: 80px;
-  color: rgba(255,255,255,.45);
-
-  white-space: pre-wrap;
-  animation: notasFlotan 20s linear infinite;
-}
-
-@keyframes notasFlotan{
-  from{
-    transform: translateY(100%);
+  pause() {
+    if (!ytPlayer) return;
+    ytPlayer.pauseVideo();
+    isPlaying = false;
   }
-  to{
-    transform: translateY(-100%);
+};
+
+// -------------------------------
+// YouTube API callback
+// -------------------------------
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player("yt-player", {
+    height: "1",
+    width: "1",
+    videoId: "",
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      modestbranding: 1
+    },
+    events: {
+      onReady: () => {
+        console.log("Player listo, esperando interacción");
+      }
+    }
+  });
+}
+
+// -------------------------------
+// Init
+// -------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  ZTPlayer.init();
+
+  // Click en TOP Zona Total
+  document.querySelectorAll("[data-track-id]").forEach(item => {
+    item.addEventListener("click", () => {
+      const trackId = item.dataset.trackId;
+
+      ZTPlayer.load(trackId);
+      showVisiblePlayer(ZTPlayer.currentTrack);
+      ZTPlayer.play();
+
+      const playToggle = document.getElementById("zt-play-toggle");
+      if (playToggle) playToggle.textContent = "⏸";
+
+      console.log("▶ Audio disparado por click directo:", trackId);
+    });
+  });
+
+  // Play / Pause visible (ESTABLE)
+  const playToggle = document.getElementById("zt-play-toggle");
+
+  if (playToggle) {
+    playToggle.addEventListener("click", () => {
+      if (!ytPlayer) return;
+
+      if (isPlaying) {
+        ytPlayer.pauseVideo();
+        playToggle.textContent = "▶";
+        isPlaying = false;
+      } else {
+        ytPlayer.playVideo();
+        playToggle.textContent = "⏸";
+        isPlaying = true;
+      }
+    });
   }
-}
-
-/* ===============================
-   HERO — NOTAS MUSICALES DANZANDO
-   =============================== */
-
-.hero-music::after{
-  /*content: "♪   ♫     ♬    ♪    ♫      ♬";*/
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  color: rgba(255,255,255,.75);
-
-  letter-spacing: 80px;
-  line-height: 140px;
-
-  white-space: pre-wrap;
-
-  animation: notasDanzan 14s ease-in-out infinite;
-}
-
-@keyframes notasDanzan{
-  0%{
-    transform: translate(0,0) rotate(0deg);
-  }
-  20%{
-    transform: translate(-30px,-20px) rotate(-6deg);
-  }
-  40%{
-    transform: translate(20px,-40px) rotate(4deg);
-  }
-  60%{
-    transform: translate(-20px,20px) rotate(-3deg);
-  }
-  80%{
-    transform: translate(30px,10px) rotate(5deg);
-  }
-  100%{
-    transform: translate(0,0) rotate(0deg);
-  }
-}
-
-/* ===============================
-   HERO — NOTAS MUSICALES FLOTANDO
-   =============================== */
-
-.hero-music::after{
-  /*content: "♪   ♫    ♬   ♪    ♫   ♬";*/
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-
-  font-family: 'Playfair Display', serif;
-  font-size: 42px;                /* MÁS GRANDES */
-  color: rgba(255,255,255,.95);   /* MUCHO MÁS VISIBLES */
-
-  letter-spacing: 40px;
-  line-height: 160px;
-  white-space: pre-wrap;
-
-  animation: notasFlotanLibre 18s ease-in-out infinite;
-}
-
-@keyframes notasFlotanLibre{
-  0%   { transform: translate(0, 0) rotate(0deg); }
-  20%  { transform: translate(-40px, -25px) rotate(-8deg); }
-  40%  { transform: translate(35px, -45px) rotate(6deg); }
-  60%  { transform: translate(-30px, 30px) rotate(-5deg); }
-  80%  { transform: translate(45px, 20px) rotate(7deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-}
-
-/* ===============================
-   HERO — NOTAS MUSICALES FLOTANDO LIBRES
-   =============================== */
-
-.hero-music::after{
-  /*content:
-    "♪     ♫        ♬     ♪        ♫    ♬        ♪      ♫      ♬";*/
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
-
-  font-family:'Playfair Display', serif;
-  font-size:44px;                 /* GRANDES */
-  color:rgba(255,255,255,.95);    /* MUY VISIBLES */
-
-  letter-spacing:10px;
-  line-height:140px;
-  white-space:pre-wrap;
-
-  animation:
-    floatX 17s ease-in-out infinite alternate,
-    floatY 23s ease-in-out infinite alternate,
-    rotateNotes 29s linear infinite;
-}
-
-/* movimiento horizontal irregular */
-@keyframes floatX{
-  0%   { transform: translateX(-60px); }
-  100% { transform: translateX(80px); }
-}
-
-/* movimiento vertical irregular */
-@keyframes floatY{
-  0%   { transform: translateY(50px); }
-  100% { transform: translateY(-70px); }
-}
-
-/* rotación lenta independiente */
-@keyframes rotateNotes{
-  0%   { rotate: 0deg; }
-  100% { rotate: 360deg; }
-}
-
-/* ===============================
-   FASE 4.1 — BLOQUE EDITORIAL
-   AJUSTE DE ORDEN Y CENTRADO
-   =============================== */
-
-.page-intro{
-  position: relative;
-  padding: 10px; /* ⬅️ MENOS ALTURA */
-  background:
-    radial-gradient(
-      800px 240px at 50% 0%,
-      rgba(212,175,55,0.14),
-      transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      #050509 0%,
-      #0b0c13 100%
-    );
-}
-
-.page-intro-inner{
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center; /* ⬅️ CENTRADO REAL */
-}
-
-.page-title{
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 5vw, 4.2rem);
-  letter-spacing: 0.32em;
-  line-height: 1.1;
-  
-  color: #f3f3f7;
-}
-
-.page-title span{
-  display: block;
-  margin-top: 6px;
-  background: linear-gradient(
-    180deg,
-    #fff6c7 0%,
-    #ffd700 55%,
-    #c9a635 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.page-tagline{
-  margin: 0 auto;          /* ⬅️ CENTRADO */
-  max-width: 520px;
-  font-size: 1rem;
-  line-height: 1.55;
-  color: rgba(255,255,255,0.75);
-}
-
-/* ===============================
-   FASE 4.2 — FONDO Y CONTENEDOR
-   =============================== */
-
-/* Fondo general debajo del título */
-.app{
-  position: relative;
-  margin: 0 auto 20px;
-  padding: 40px;
-  max-width: 1400px;
-
-  background:
-    radial-gradient(
-      900px 400px at 30% 0%,
-      rgba(255,215,0,0.08),
-      transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      #0a0b14 0%,
-      #06060c 100%
-    );
-
-  border-radius: 32px;
-
-  box-shadow:
-    0 40px 120px rgba(0,0,0,0.65),
-    inset 0 0 0 1px rgba(255,255,255,0.04);
-}
-
-/* Separación visual con el bloque superior */
-.app::before{
- 
-  position:absolute;
-  top:-40px;
-  left:40px;
-  right:40px;
-  height:1px;
-
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,0.25),
-    transparent
-  );
-}
-
-/* ===============================
-   FASE 4.3 — SIDEBAR (BASE VISUAL)
-   =============================== */
-
-.sidebar{
-  /* position: relative; */
-  background:
-    linear-gradient(
-      180deg,
-      #0f1222 0%,
-      #0f1222 25%,
-      #0b0c19 70%,
-      #0b0c19 100%
-    );
-
-  border-radius: 24px;
-
-  box-shadow:
-    0 25px 80px rgba(0,0,0,0.6),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
-}
-
-/* ligera separación del fondo */
-.sidebar::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius: inherit;
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.06);
-  pointer-events:none;
-}
-
-
-/* ===============================
-   FASE 4.3.1 — SIDEBAR ÍCONOS + DIVISIÓN
-   =============================== */
-
-.nav{
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.nav-item{
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  padding: 14px 16px;
-  border-radius: 14px;
-
-  color: #f3f3f7;
-  text-decoration: none;
-  font-size: 0.95rem;
-
-  background: transparent;
-  transition: background 0.25s ease, transform 0.25s ease;
-}
-
-/* línea divisoria sutil */
-.nav-item:not(:last-child){
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.nav-icon{
-  font-size: 1.2rem;
-  opacity: 0.85;
-}
-
-.nav-text{
-  letter-spacing: 0.04em;
-}
-
-/* hover elegante */
-.nav-item:hover{
-  background: rgba(255,255,255,0.06);
-  transform: translateX(2px);
-}
-
-/* ===============================
-   FASE 4.3.2 — SIDEBAR ESTADO ACTIVO
-   =============================== */
-
-/* ===============================
-   FASE 4.3.2 — SIDEBAR ACTIVE (ROSADO)
-   =============================== */
-
-.nav-item.active{
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,110,180,0.22),
-      rgba(255,110,180,0.06)
-    );
-
-  box-shadow:
-    inset 3px 0 0 rgba(255,120,190,0.95),
-    0 8px 24px rgba(0,0,0,0.45);
-}
-
-.nav-item.active .nav-text{
-  font-weight: 600;
-  color: #ffe6f2;
-}
-
-.nav-item.active .nav-icon{
-  opacity: 1;
-  filter: drop-shadow(0 0 4px rgba(255,120,190,0.6));
-}
-
-/* ===============================
-   FASE 4.4.1 — NUEVOS LANZAMIENTOS
-   =============================== */
-
-.albums{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 24px;
-  padding-bottom: 35px
-}
-
-/* card base */
-.album{
-  position: relative;
-  height: 220px;
-  border-radius: 18px;
-  padding: 16px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #181a2f 0%,
-      #101226 100%
-    );
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.55),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
-
-  display: flex;
-  align-items: flex-end;
-
-  color: #fff;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-/* jerarquía por tamaño */
-.album.featured{
-  height: 280px; /* ⬅️ MÁS GRANDE, MISMO ESTILO */
-}
-
-/* hover elegante */
-.album:hover{
-  transform: translateY(-6px);
-  box-shadow:
-    0 30px 90px rgba(0,0,0,0.75),
-    inset 0 0 0 1px rgba(255,255,255,0.08);
-}
-
-/* título dentro de la card */
-.album::after{
-  content: attr(data-title);
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-}
-
-/* ===============================
-   FIX — SIDEBAR NO SE ESTIRA
-   =============================== */
-
-/* .sidebar{
-  align-self: flex-start;
-} */
-
-/* ===============================
-   REAFIRMAR ACTIVE ROSADO SIDEBAR
-   =============================== */
-
-.nav-item.active{
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,110,180,0.22),
-      rgba(255,110,180,0.06)
-    ) !important;
-
-  box-shadow:
-    inset 3px 0 0 rgba(255,120,190,0.95),
-    0 8px 24px rgba(0,0,0,0.45) !important;
-}
-
-.nav-item.active .nav-text{
-  color: #ffe6f2;
-  font-weight: 600;
-}
-
-.nav-item.active .nav-icon{
-  opacity: 1;
-}
-
-/* ===============================
-   FIX DEFINITIVO — ACTIVE ROSADO SIDEBAR
-   (HTML USA .nav a, NO .nav-item)
-   =============================== */
-
-.nav a.active{
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,110,180,0.22),
-      rgba(255,110,180,0.06)
-    ) !important;
-
-  box-shadow:
-    inset 3px 0 0 rgba(255,120,190,0.95),
-    0 8px 24px rgba(0,0,0,0.45) !important;
-
-  color: #ffe6f2 !important;
-  font-weight: 600;
-}
-
-.nav a.active::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:3px;
-  background: rgba(255,120,190,0.95);
-  border-radius: 0 4px 4px 0;
-}
-
-
-
-.nav-item.active .nav-text{
-  font-weight: 600;
-}
-
-.nav-item.active .nav-icon{
-  opacity: 1;
-}
-
-/* =========================================
-   FIX DEFINITIVO ACTIVE ROSADO — SIDEBAR
-   NO TOCAR NADA MÁS
-   ========================================= */
-
-.sidebar .nav a.active{
-  position: relative;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,110,180,0.28),
-      rgba(255,110,180,0.08)
-    ) !important;
-
-  color: #ffe6f2 !important;
-  font-weight: 600 !important;
-
-  box-shadow:
-    inset 4px 0 0 rgba(255,120,190,1),
-    0 10px 28px rgba(0,0,0,0.5) !important;
-}
-
-/* barra lateral rosada */
-.sidebar .nav a.active::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:8px;
-  bottom:8px;
-  width:4px;
-
-  background: rgba(255,120,190,1);
-  border-radius: 0 6px 6px 0;
-}
-
-/* asegurar que hover NO anule el active */
-.sidebar .nav a.active:hover{
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,110,180,0.32),
-      rgba(255,110,180,0.12)
-    ) !important;
-}
-
-/* ===============================
-   FASE 4.4.1 — PASO 1
-   VOLUMEN Y LUZ (SOLO CARDS)
-   =============================== */
-
-.album{
-  background:
-    radial-gradient(
-      140% 100% at 50% 0%,
-      rgba(255,255,255,0.08),
-      transparent 55%
-    ),
-    linear-gradient(
-      180deg,
-      #1a1d34 0%,
-      #0f1126 100%
-    );
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,0.65),
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(0,0,0,0.4);
-}
-
-/* ===============================
-   FASE 4.4.1 — PASO 2
-   JERARQUÍA POR TAMAÑO (SOLO CARDS)
-   =============================== */
-
-/* álbum destacado */
-.album.featured{
-  height: 270px; /* ⬅️ más alto, misma forma */
-}
-
-/* refuerzo sutil de presencia */
-.album.featured{
-  box-shadow:
-    0 40px 110px rgba(0,0,0,0.75),
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -1px 0 rgba(0,0,0,0.45);
-}
-
-/* título un poco más protagonista */
-.album.featured::after{
-  font-size: 1.05rem;
-  letter-spacing: 0.05em;
-}
-
-/* ===============================
-   FASE 4.4.2 — PLAYLISTS (OPCIÓN 3)
-   Chips premium compactos
-   =============================== */
-
-.playlists{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
-}
-
-/* card base */
-.playlist{
-  position: relative;
-  padding: 18px 20px;
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #17192f 0%,
-      #101226 100%
-    );
-
-  box-shadow:
-    0 14px 40px rgba(0,0,0,0.55),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
-
-  color: #f3f3f7;
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    background .25s ease;
-}
-
-/* hover sutil */
-.playlist:hover{
-  transform: translateY(-4px);
-  box-shadow:
-    0 24px 70px rgba(0,0,0,0.7),
-    inset 0 0 0 1px rgba(255,255,255,0.08);
-}
-
-/* título directo (sin adornos) */
-.playlist::after{
-  content: attr(data-title);
-}
-
-/* ===============================
-   FASE 4.4.2 — MICRO–INTERACCIÓN
-   Playlists Curadas
-   =============================== */
-
-.playlist{
-  position: relative;
-  overflow: hidden;
-}
-
-/* halo sutil de luz */
-.playlist::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(
-      120% 120% at 50% 120%,
-      rgba(255,120,190,0.18),
-      transparent 55%
-    );
-  opacity: 0;
-  transition: opacity .35s ease;
-  pointer-events:none;
-}
-
-/* hover elegante */
-.playlist:hover{
-  transform: translateY(-3px);
-}
-
-.playlist:hover::before{
-  opacity: 1;
-}
-
-/* ===============================
-   AJUSTE MICRO–INTERACCIÓN
-   Bordes iluminados (Playlists)
-   =============================== */
-
-.playlist{
-  border: 1px solid rgba(255,255,255,0.06);
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
-}
-
-.playlist:hover{
-  border-color: rgba(255,120,190,0.65);
-  box-shadow:
-    0 22px 60px rgba(0,0,0,0.7),
-    0 0 0 1px rgba(255,120,190,0.35),
-    0 0 18px rgba(255,120,190,0.25);
-}
-
-
-
-.zt-top-layout {
-  display: grid;
-  grid-template-columns: 60% 1fr;
-
-  gap: 30px;
-  padding-bottom: 35px;
-}
-
-/* TOP 1 */
-.zt-top-main {
-  position: relative;
-  border-radius: 26px;
-  overflow: hidden;
-  background: linear-gradient(160deg, #0e0e12, #15151f);
-  box-shadow: 0 0 45px rgba(255, 0, 140, 0.18);
-  height: clamp(280px, 38vw, 420px);
-
-}
-
-.zt-top-main img {
-  position: absolute;
-  inset: 0;
-
-  min-width: 100%;
-  min-height: 100%;
-
-  width: auto;
-  height: auto;
-
-  object-fit: cover;
-  object-position: center;
-
-  border-radius: inherit;
-  opacity: 0.85;
-  padding: 0
-}
-
-
-
-.zt-top-info {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-}
-
-.zt-top-info h3 {
-  font-size: 1.6rem;
-  margin: 0;
-}
-
-.zt-top-info p {
-  color: #ff4fa3;
-  margin: 4px 0 0;
-}
-
-/* RANK */
-.zt-rank {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 3rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.08);
-}
-
-/* SIDE */
-.zt-top-side {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.zt-top-mini {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  padding: 2px 14px;
-  border-radius: 18px;
-  background: #12121a;
-  position: relative;
-}
-
-.zt-top-mini img {
-  width: 120px;
-  height: 120px;
-  border-radius: 18px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.zt-top-mini h4 {
-  margin: 0;
-  font-size: 0.95rem;
-}
-
-.zt-top-mini p {
-  margin: 2px 0 0;
-  font-size: 0.8rem;
-  color: #ff4fa3;
-}
-
-/* ===============================
-   FASE 4 — UNIVERSOS MUSICALES
-   Etiquetas editoriales
-   =============================== */
-
-.zt-universes{
-  margin: 20px 0;
-  padding: 20px 20px;
-
-  background:
-    radial-gradient(
-      120% 80% at 50% 0%,
-      rgba(255,255,255,0.06),
-      transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      #0f1222 0%,
-      #0b0c19 100%
-    );
-
-  border-radius: 28px;
-
-  box-shadow:
-    0 30px 90px rgba(0,0,0,0.65),
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(0,0,0,0.4);
-}
-
-
-.zt-universe-grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 36px 24px;
-  margin-top: 28px;
-}
-
-.zt-universe{
-  display: block;
-
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.6rem, 2.4vw, 1.9rem);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-
-  color: rgba(255,255,255,0.9);
-  text-align: center;
-
-  padding: 26px 12px;
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.04),
-      rgba(255,255,255,0.015)
-    );
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    color .25s ease;
-}
-
-.zt-universe:hover{
-  transform: translateY(-4px);
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.75),
-    0 0 0 1px rgba(255,215,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.18);
-
-  color: #ffd700;
-}
-
-/* ===============================
-   FASE 4 — ARTISTAS EN FOCO
-   Fila de 4 (coherente con Playlists)
-   =============================== */
-
-.zt-artists{
-  margin: 50px 0;
-  padding: 20px 20px;
-
-  background:
-    radial-gradient(
-      120% 80% at 50% 0%,
-      rgba(255,255,255,0.05),
-      transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      #0f1222 0%,
-      #0b0c19 100%
-    );
-
-  border-radius: 28px;
-
-    box-shadow:
-  0 28px 90px rgba(0,0,0,0.65),
-
-  /* halo rosado exterior */
-  0 0 0 1px rgba(255,120,190,0.18),
-  0 0 45px rgba(255,120,190,0.25),
-
-  /* luz interna */
-  inset 0 1px 0 rgba(255,255,255,0.08),
-  inset 0 -1px 0 rgba(0,0,0,0.45);
-
-
-}
-
-
-.zt-artists-row{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  
-}
-
-.zt-artist{
-  background:
-    linear-gradient(
-      180deg,
-      #16182d 0%,
-      #0f1126 100%
-    );
-
-  border-radius: 20px;
-  overflow: hidden;
-
-  box-shadow:
-    0 18px 55px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.06);
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-}
-
-.zt-artist img{
-  width: 100%;
-  height: 130px;
-  object-fit: cover;
-  display: block;
-}
-
-.zt-artist h3{
-  font-size: 1rem;
-  margin: 14px 14px 2px;
-}
-
-.zt-artist p{
-  margin: 0 14px 16px;
-  font-size: 0.85rem;
-  color: #ff4fa3;
-}
-
-/* hover sutil */
-.zt-artist:hover{
-  transform: translateY(-3px);
-
-  box-shadow:
-    0 26px 80px rgba(0,0,0,0.7),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-}
-
-/* ===============================
-   FASE 4 — MANIFIESTO ZONA TOTAL
-   Cierre editorial
-   =============================== */
-
-.zt-manifesto{
-  margin: 10px auto 10px;
-  max-width: 700px;
-  padding: 26px 32px;
-
-  text-align: center;
-
-  background:
-    radial-gradient(
-      140% 90% at 50% 0%,
-      rgba(255,120,190,0.22),
-      transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      #0c0f24 0%,
-      #070912 100%
-    );
-
-  border-radius: 36px;
-
-  box-shadow:
-    0 40px 120px rgba(0,0,0,0.85),
-    0 0 70px rgba(255,120,190,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-
-  position: relative;
-}
-
-.zt-manifesto-text{
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
-  line-height: 1.4;
-  letter-spacing: 0.06em;
-
-  color: rgba(255,255,255,0.92);
-}
-
-.zt-manifesto-text span{
-  display: block;
-  margin-top: 14px;
-
-  font-size: 0.85em;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-
-  color: #ff78be;
-
-  text-shadow:
-    0 0 22px rgba(255,120,190,0.55);
-}
-
-/* ===============================
-   SIDEBAR — DECORATIVO INFERIOR
-   (NO FUNCIONAL)
-   =============================== */
-
-/* Asegura referencia correcta */
-.sidebar{
-  position: relative;
-}
-
-/* Bloque decorativo flotante */
-.sidebar-decorative{
-  position: absolute;
-  left: 0;
-  bottom: 120px; /* ajustable */
-
-  padding: 0 22px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  opacity: 0.6;
-  pointer-events: none; /* decorativo, no interactúa */
-}
-
-.sidebar-decorative .sidebar-symbol{
-  font-size: 26px;
-  color: rgba(255,120,190,0.6);
-  text-shadow: 0 0 12px rgba(255,120,190,0.25);
-}
-
-.sidebar-decorative .sidebar-quote{
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(255,255,255,0.6);
-  max-width: 180px;
-}
-
-.zt-editorial-player {
-  margin: 48px 0;
-  padding: 28px 32px;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.04),
-    rgba(255,255,255,0.01)
-  );
-  border-radius: 28px;
-}
-
-.zt-editorial-player h3 {
-  margin-bottom: 18px;
-  font-size: 16px;
-  opacity: 0.85;
-}
-
-#zt-player-visible {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 16px 18px;
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-}
-
-.zt-player-hidden {
-  display: none;
-}
-
-.zt-player-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.zt-player-title {
-  font-weight: 600;
-}
-
-.zt-player-artist {
-  font-size: 12px;
-  opacity: 0.65;
-}
-
-#zt-play-toggle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.25);
-  background: none;
-  cursor: pointer;
-}
+});
