@@ -1237,8 +1237,7 @@ body{
    =============================== */
 
 .zt-editorial-player {
-  margin-top: 64px;
-  margin-bottom: 64px;
+  
 }
 
 #zt-player-visible {
@@ -1280,4 +1279,5 @@ body{
   background: none;
   cursor: pointer;
 }
+
 
