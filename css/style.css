@@ -1241,7 +1241,7 @@ body{
 }
 
 #zt-player-visible {
-  padding: 28px 32px;
+  padding: 10px 10px;
   border-radius: 24px;
 
   background: linear-gradient(
@@ -1279,5 +1279,6 @@ body{
   background: none;
   cursor: pointer;
 }
+
 
 
