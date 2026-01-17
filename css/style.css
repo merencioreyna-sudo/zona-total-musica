@@ -971,8 +971,7 @@ body{
    =============================== */
 
 .zt-universes{
-  margin: 20px 0;
-  padding: 20px 20px;
+  padding: 10px 10px;
 
   background:
     radial-gradient(
@@ -999,7 +998,6 @@ body{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 36px 24px;
-  margin-top: 28px;
 }
 
 .zt-universe{
@@ -1050,8 +1048,8 @@ body{
    =============================== */
 
 .zt-artists{
-  margin: 50px 0;
-  padding: 20px 20px;
+  margin: 30px 0;
+  padding: 0px 10px;
 
   background:
     radial-gradient(
@@ -1233,24 +1231,32 @@ body{
 }
 
 /* ===============================
-   PLAYER EDITORIAL — AJUSTE FINO
+   PLAYER EDITORIAL — DEFINITIVO
    =============================== */
 
-.zt-editorial-player {
-  margin-top: 48px;
-  margin-bottom: 48px;
+/* CONTENEDOR DEL BLOQUE (TÍTULO + PLAYER) */
+.zt-editorial-block.zt-editorial-player {
+  margin-top: 16px;
+  padding-bottom: 6px;
+  border-radius: 15px;
+
+  /* relieve entre bloques */
+  box-shadow:
+    0 -18px 24px -12px rgba(0, 0, 0, 0.9),
+    0 -40px 60px -32px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+/* PLAYER (BARRA) */
 #zt-player-visible {
-  max-width: 760px;        /* 👈 lo hace elegante, no gigante */
+  max-width: 950px;
   margin: 0 auto;
 
-  padding: 18px 22px;
-  border-radius: 18px;
+  /* 👇 ESTO CONTROLA EL ALTO */
+  padding: 0px 8px;
 
   background: rgba(20, 18, 32, 0.85);
-
-  border: 1px solid rgba(255, 120, 180, 0.35);
+  border-radius: 17px;
 
   box-shadow:
     0 0 0 1px rgba(255, 120, 180, 0.15),
@@ -1260,30 +1266,66 @@ body{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 16px;
 }
 
+/* INFO TEXTO */
 .zt-player-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
-.zt-player-title {
-  font-size: 14px;
-  font-weight: 600;
+.zt-player-title,
+.zt-player-artist {
+  font-size: 20px;
+  line-height: 0.4;   /* 👈 CLAVE para bajar altura */
+  margin: 0;
 }
 
 .zt-player-artist {
-  font-size: 12px;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
+/* BOTÓN */
 #zt-play-toggle {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;       /* 👈 CLAVE para bajar altura */
   border-radius: 50%;
-  border: 1px solid rgba(255, 120, 180, 0.5);
+  padding: 0;
+  line-height: 1;
   background: none;
   cursor: pointer;
+}
+
+/* Quitar altura fantasma del título "Reproduciendo ahora" */
+.zt-editorial-player .zt-editorial-header {
+  margin-bottom: 4px;
+}
+
+.zt-editorial-player .zt-editorial-header h3 {
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* ===== AJUSTE ÚNICO: FRANJA "REPRODUCIENDO AHORA" ===== */
+
+/* El header NO debe inflar el bloque */
+.zt-editorial-player .zt-editorial-header {
+  padding: 0;
+  margin: 0 0 6px 0;   /* solo un pequeño aire abajo */
+  height: auto;
+}
+
+/* El texto NO debe traer márgenes ni altura extra */
+.zt-editorial-player .zt-editorial-header h3 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.1;
+  font-size: 17px;     /* opcional: si lo ves muy grande */
+}
+
+/* Separar el texto "Reproduciendo ahora" del borde */
+.zt-editorial-player .zt-editorial-header h3 {
+  padding-left: 10px;
 }
