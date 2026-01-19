@@ -1,151 +1,49 @@
-// ===============================
-// ZONA TOTAL MÚSICA — PLAYER
-// FASE 5.5 — PLAYER VISIBLE EDITORIAL
-// ===============================
+console.log("🎧 Player SoundCloud cargado");
 
-let ytPlayer = null;
-let isPlaying = false; // 👈 estado interno REAL
+const playerContainer = document.getElementById("sc-player-container");
 
-// -------------------------------
-// Cargar API de YouTube
-// -------------------------------
-function loadYouTubeAPI() {
-  const tag = document.createElement("script");
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.body.appendChild(tag);
-}
-
-// -------------------------------
-// Mostrar player visible (EDITORIAL)
-// -------------------------------
-function showVisiblePlayer(track) {
-  const container = document.getElementById("zt-player-visible");
-  if (!container || !track) return;
-
-  container.classList.remove("zt-player-hidden");
-
-  const titleEl = container.querySelector(".zt-player-title");
-  const artistEl = container.querySelector(".zt-player-artist");
-
-  if (titleEl) titleEl.textContent = track.title;
-  if (artistEl) artistEl.textContent = track.artist;
-}
-
-// -------------------------------
-// Core Player
-// -------------------------------
-const ZTPlayer = {
-  tracks: [
-    {
-      id: "zt001",
-      title: "Provenza",
-      artist: "Karol G",
-      youtubeId: "ca48oMV59LU"
-    },
-    {
-      id: "zt002",
-      title: "TQG",
-      artist: "Karol G, Shakira",
-      youtubeId: "jZGpkLElSu8"
-    },
-    {
-      id: "zt003",
-      title: "BZRP Music Sessions #53",
-      artist: "Shakira",
-      youtubeId: "CocEMWdc7Ck"
-    }
-  ],
-
-  currentTrack: null,
-
-  init() {
-    loadYouTubeAPI();
-  },
-
-  load(trackId) {
-    const track = this.tracks.find(t => t.id === trackId);
-    if (!track) return;
-    this.currentTrack = track;
-  },
-
-  play() {
-    if (!this.currentTrack || !ytPlayer) return;
-
-    ytPlayer.stopVideo();
-    ytPlayer.loadVideoById({
-      videoId: this.currentTrack.youtubeId,
-      startSeconds: 0
-    });
-
-    isPlaying = true;
-  },
-
-  pause() {
-    if (!ytPlayer) return;
-    ytPlayer.pauseVideo();
-    isPlaying = false;
+// Si no existe, lo creamos dentro del bloque editorial
+if (!playerContainer) {
+  const editorial = document.querySelector(".zt-editorial-player");
+  if (editorial) {
+    const div = document.createElement("div");
+    div.id = "sc-player-container";
+    editorial.appendChild(div);
   }
-};
-
-// -------------------------------
-// YouTube API callback
-// -------------------------------
-function onYouTubeIframeAPIReady() {
-  ytPlayer = new YT.Player("yt-player", {
-    height: "1",
-    width: "1",
-    videoId: "",
-    playerVars: {
-      autoplay: 0,
-      controls: 0,
-      modestbranding: 1
-    },
-    events: {
-      onReady: () => {
-        console.log("Player listo, esperando interacción");
-      }
-    }
-  });
 }
 
-// -------------------------------
-// Init
-// -------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  ZTPlayer.init();
-
-  // Click en TOP Zona Total
-  document.querySelectorAll("[data-track-id]").forEach(item => {
-    item.addEventListener("click", () => {
-      const trackId = item.dataset.trackId;
-
-      ZTPlayer.load(trackId);
-      showVisiblePlayer(ZTPlayer.currentTrack);
-      ZTPlayer.play();
-
-      const playToggle = document.getElementById("zt-play-toggle");
-      if (playToggle) playToggle.textContent = "⏸";
-
-      console.log("▶ Audio disparado por click directo:", trackId);
-    });
-  });
-
-  // Play / Pause visible (ESTABLE)
-  const playToggle = document.getElementById("zt-play-toggle");
-
-  if (playToggle) {
-    playToggle.addEventListener("click", () => {
-      if (!ytPlayer) return;
-
-      if (isPlaying) {
-        ytPlayer.pauseVideo();
-        playToggle.textContent = "▶";
-        isPlaying = false;
-      } else {
-        ytPlayer.playVideo();
-        playToggle.textContent = "⏸";
-        isPlaying = true;
-      }
-    });
+function reproducirSoundCloud(trackUrl) {
+  if (!trackUrl) {
+    console.warn("⚠️ No hay URL de SoundCloud para reproducir");
+    return;
   }
+
+  const embedSrc =
+    "https://w.soundcloud.com/player/?url=" +
+    encodeURIComponent(trackUrl) +
+    "&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=false";
+
+  const iframe = document.createElement("iframe");
+  iframe.width = "100%";
+  iframe.height = "166";
+  iframe.scrolling = "no";
+  iframe.frameBorder = "no";
+  iframe.allow = "autoplay";
+  iframe.src = embedSrc;
+
+  const container = document.getElementById("sc-player-container");
+  if (container) {
+    container.innerHTML = "";
+    container.appendChild(iframe);
+  }
+}
+
+// Escucha clicks en canciones (Top, Nuevos, etc.)
+document.addEventListener("click", (e) => {
+  const card = e.target.closest("[data-track-id]");
+  if (!card) return;
+
+  const trackUrl = card.dataset.trackId;
+  console.log("▶ Reproduciendo SoundCloud:", trackUrl);
+  reproducirSoundCloud(trackUrl);
 });
