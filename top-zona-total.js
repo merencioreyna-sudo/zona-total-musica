@@ -10,10 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     download: true,
     header: true,
     complete: function (results) {
+
+      // 👉 AQUÍ VA EL CONSOLE.LOG (ESTE ES EL SITIO EXACTO)
+      console.log("🔑 Claves reales:", Object.keys(results.data[0]));
+
       console.log("📦 DATOS DESDE SHEETS:", results.data);
 
       const topSongs = results.data
-        .filter(row => row.Colecciones === "Top Zona Total")
+        .filter(row => row.colecciones === "Top Zona Total")
         .slice(0, 4);
 
       const topCards = document.querySelectorAll(".zt-top-main");
@@ -22,14 +26,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const song = topSongs[i];
         if (!song) return;
 
-        card.dataset.trackId = song.Audio_id || "";
-        card.querySelector("h3").textContent = song.Canción || "";
-        card.querySelector("p").textContent = song.Artista || "";
+        // 👉 LECTURA ROBUSTA DE audio_id (CON ESPACIOS SI LOS HAY)
+        const audioUrl =
+          song.audio_id ||
+          song["audio_id"] ||
+          song["audio_id "] ||
+          song[" audio_id"];
+
+        card.dataset.trackId = audioUrl || "";
+
+        card.querySelector("h3").textContent = song["canción"] || "";
+        card.querySelector("p").textContent =
+          song["artista"] || song["artista "] || "";
 
         const img = card.querySelector("img");
-        if (img && song.Imagen) {
-          img.src = song.Imagen;
-          img.alt = song.Canción;
+        if (img && song.imagen) {
+          img.src = song.imagen;
+          img.alt = song["canción"] || "";
         }
       });
 
