@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .filter(row => row.colecciones === "Top Zona Total")
         .slice(0, 4);
 
-      const topCards = document.querySelectorAll(".zt-top-main");
+      const topCards = document.querySelectorAll(".zt-top-main, .zt-top-mini");
+
 
       topCards.forEach((card, i) => {
         const song = topSongs[i];
@@ -53,3 +54,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
