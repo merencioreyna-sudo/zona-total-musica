@@ -1,6 +1,6 @@
 console.log("🎧 Player SoundCloud cargado");
 
-const playerContainer = document.getElementById("sc-player-container");
+let playerContainer = document.getElementById("sc-player-container");
 
 // Si no existe, lo creamos dentro del bloque editorial
 if (!playerContainer) {
@@ -9,7 +9,18 @@ if (!playerContainer) {
     const div = document.createElement("div");
     div.id = "sc-player-container";
     editorial.appendChild(div);
+    playerContainer = div;
   }
+}
+
+// 🔹 AJUSTE ÚNICO:
+// Al cargar la página, mostramos un estado inicial visible
+if (playerContainer) {
+  playerContainer.innerHTML = `
+    <p style="opacity:0.6; font-size:14px; text-align:center;">
+      Pulsa una canción para reproducir
+    </p>
+  `;
 }
 
 function reproducirSoundCloud(trackUrl) {
@@ -31,10 +42,9 @@ function reproducirSoundCloud(trackUrl) {
   iframe.allow = "autoplay";
   iframe.src = embedSrc;
 
-  const container = document.getElementById("sc-player-container");
-  if (container) {
-    container.innerHTML = "";
-    container.appendChild(iframe);
+  if (playerContainer) {
+    playerContainer.innerHTML = "";
+    playerContainer.appendChild(iframe);
   }
 }
 
