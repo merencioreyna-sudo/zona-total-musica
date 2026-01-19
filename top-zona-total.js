@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     header: true,
     complete: function (results) {
 
-      // 👉 AQUÍ VA EL CONSOLE.LOG (ESTE ES EL SITIO EXACTO)
       console.log("🔑 Claves reales:", Object.keys(results.data[0]));
-
       console.log("📦 DATOS DESDE SHEETS:", results.data);
 
       const topSongs = results.data
@@ -22,12 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const topCards = document.querySelectorAll(".zt-top-main, .zt-top-mini");
 
-
       topCards.forEach((card, i) => {
         const song = topSongs[i];
         if (!song) return;
 
-        // 👉 LECTURA ROBUSTA DE audio_id (CON ESPACIOS SI LOS HAY)
+        // 👉 audio_id (ya estaba correcto)
         const audioUrl =
           song.audio_id ||
           song["audio_id"] ||
@@ -40,9 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
         card.querySelector("p").textContent =
           song["artista"] || song["artista "] || "";
 
+        // 👉 🔧 ÚNICA CORRECCIÓN REAL: imagen robusta
+        const imageUrl =
+          song.imagen ||
+          song["imagen"] ||
+          song["imagen "] ||
+          song[" Imagen"] ||
+          song["Imagen"];
+
         const img = card.querySelector("img");
-        if (img && song.imagen) {
-          img.src = song.imagen;
+        if (img && imageUrl) {
+          img.src = imageUrl;
           img.alt = song["canción"] || "";
         }
       });
@@ -54,4 +59,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
