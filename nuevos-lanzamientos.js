@@ -71,6 +71,12 @@ function pintarNuevos(canciones) {
     album.style.backgroundSize = "cover";
     album.style.backgroundPosition = "center";
 
+    // 🔴 CORRECCIÓN: texto visible (reemplaza “Álbum X”)
+    album.setAttribute(
+      "data-title",
+      `${data.artista} – ${data.cancion}`
+    );
+
     // Datos para el player
     album.dataset.audioId = data.audio_id;
     album.dataset.artista = data.artista;
@@ -84,4 +90,3 @@ function pintarNuevos(canciones) {
     });
   });
 }
-
