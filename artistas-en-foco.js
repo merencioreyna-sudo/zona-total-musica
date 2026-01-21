@@ -1,3 +1,5 @@
+console.log("🔥 artistas-en-foco.js CARGADO");
+
 // ================================
 // ARTISTAS EN FOCO — DESDE GOOGLE SHEETS
 // ================================
@@ -109,4 +111,5 @@ function cerrarOverlayArtista() {
   const old = document.getElementById("zt-artista-overlay");
   if (old) old.remove();
 }
+
 
