@@ -4,7 +4,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const CSV_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJpv1h9XBYo7gJPLBx4U_1IiRkf0v-y2W2Z_o-O3V67aPSqAzvBdAomO7SPy-dVSYw3cyUwD3C0oVJ/pub?gid=369911819&single=true&output=csv";
+    "const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJpv1h9XBYo7gJPLBx4U_1IiRkf0v-y2W2Z_o-O3V67aPSqAzvBdAomO7SPy-dVSYw3cyUwD3C0oVJ/pub?gid=369911819&single=true&output=csv&v=" + Date.now();
+";
 
   const cards = document.querySelectorAll(".zt-artist");
   if (!cards.length) return;
@@ -108,3 +109,4 @@ function cerrarOverlayArtista() {
   const old = document.getElementById("zt-artista-overlay");
   if (old) old.remove();
 }
+
