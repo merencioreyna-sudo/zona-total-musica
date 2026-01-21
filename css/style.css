@@ -1370,4 +1370,26 @@ body{
   cursor: pointer;
 }
 
+/* ============================= */
+/* ARTISTAS EN FOCO — OVERLAY */
+/* ============================= */
+
+#zt-artista-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.zt-artista-panel {
+  max-height: 90vh;
+  overflow-y: auto;
+  padding-bottom: 40px;
+}
+
+.zt-artista-embed iframe {
+  width: 100%;
+  min-height: 400px;
+}
+
+
 
