@@ -16,8 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
           const normalizados = results.data.map(normalizarFila);
 
           const nuevos = normalizados.filter(row =>
-            row.nuevo && row.nuevo.toString().toUpperCase() === "TRUE"
-          );
+           row.nuevo && ["true", "1", "si", "sí", "x"].includes(
+  row.nuevo.toString().trim().toLowerCase()
+)
 
           console.log("🆕 Nuevos lanzamientos (normalizados):", nuevos);
 
@@ -90,3 +91,4 @@ function pintarNuevos(canciones) {
     });
   });
 }
+
