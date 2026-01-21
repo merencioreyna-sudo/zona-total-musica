@@ -28,10 +28,16 @@ function inicializarArtistas(cards, data) {
     const nombre = card.querySelector("h3")?.textContent.trim();
     if (!nombre) return;
 
-    const fila = data.find(row =>
-      (row.artista || "").trim() === nombre &&
-      (row.artista_foco === "TRUE" || row.artista_foco === true)
-    );
+    // 🔒 Buscar la fila correcta en Sheets (robusto a espacios)
+    const fila = data.find(row => {
+      const artistaSheet = (row["artista "] || row["artista"] || "").trim();
+      const focoSheet = (row["artista_foco"] || "")
+        .toString()
+        .trim()
+        .toUpperCase();
+
+      return artistaSheet === nombre && focoSheet === "TRUE";
+    });
 
     if (!fila || !fila.embed) return;
 
