@@ -555,7 +555,7 @@ body{
   display: flex;
   align-items: flex-end;
 
-  color: #fff;
+  color: #ff4fa3;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -1329,3 +1329,4 @@ body{
 .zt-editorial-player .zt-editorial-header h3 {
   padding-left: 10px;
 }
+
