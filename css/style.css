@@ -1391,5 +1391,23 @@ body{
   min-height: 400px;
 }
 
+/* ============================= */
+/* ARTISTAS EN FOCO — AUDIO ONLY */
+/* ============================= */
+
+/* Ocultar video de YouTube pero dejar audio */
+.zt-artista-embed iframe {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Ajustar tamaño del panel */
+.zt-artista-panel {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 
 
