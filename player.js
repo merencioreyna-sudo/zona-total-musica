@@ -1,4 +1,4 @@
-console.log("🎧 Player SoundCloud cargado");
+console.log("🎧 Player cargado (SoundCloud + Audio Directo)");
 
 let playerContainer = document.getElementById("sc-player-container");
 
@@ -13,8 +13,7 @@ if (!playerContainer) {
   }
 }
 
-// 🔹 AJUSTE ÚNICO:
-// Al cargar la página, mostramos un estado inicial visible
+// Estado inicial visible
 if (playerContainer) {
   playerContainer.innerHTML = `
     <p style="opacity:0.6; font-size:14px; text-align:center;">
@@ -23,6 +22,35 @@ if (playerContainer) {
   `;
 }
 
+// ================================
+// REPRODUCIR AUDIO (AUTO-DETECCIÓN)
+// ================================
+function reproducirAudio(url) {
+  if (!url) {
+    console.warn("⚠️ No hay URL de audio para reproducir");
+    return;
+  }
+
+  // Detectar tipo de fuente
+  const esSoundCloud = url.includes("soundcloud.com");
+  const esAudioDirecto = url.match(/\.(mp3|m4a|ogg)$/i);
+
+  if (esSoundCloud) {
+    reproducirSoundCloud(url);
+    return;
+  }
+
+  if (esAudioDirecto) {
+    reproducirAudioDirecto(url);
+    return;
+  }
+
+  console.warn("⚠️ Fuente de audio no soportada:", url);
+}
+
+// ================================
+// SOUNDCLOUD (IGUAL QUE ANTES)
+// ================================
 function reproducirSoundCloud(trackUrl) {
   if (!trackUrl) {
     console.warn("⚠️ No hay URL de SoundCloud para reproducir");
@@ -48,12 +76,39 @@ function reproducirSoundCloud(trackUrl) {
   }
 }
 
-// Escucha clicks en canciones (Top, Nuevos, etc.)
+// ================================
+// AUDIO DIRECTO (MP3 / M4A / OGG)
+// ================================
+function reproducirAudioDirecto(url) {
+  let audio = document.getElementById("zt-audio");
+
+  if (!audio) {
+    audio = document.createElement("audio");
+    audio.id = "zt-audio";
+    audio.controls = true;
+    audio.style.width = "100%";
+    document.body.appendChild(audio);
+  }
+
+  if (playerContainer) {
+    playerContainer.innerHTML = "";
+    playerContainer.appendChild(audio);
+  }
+
+  audio.src = url;
+  audio.play();
+
+  console.log("▶ Reproduciendo audio directo:", url);
+}
+
+// ================================
+// ESCUCHA CLICKS (TOP, NUEVOS, ETC.)
+// ================================
 document.addEventListener("click", (e) => {
   const card = e.target.closest("[data-track-id]");
   if (!card) return;
 
   const trackUrl = card.dataset.trackId;
-  console.log("▶ Reproduciendo SoundCloud:", trackUrl);
-  reproducirSoundCloud(trackUrl);
+  console.log("▶ Reproduciendo:", trackUrl);
+  reproducirAudio(trackUrl);
 });
