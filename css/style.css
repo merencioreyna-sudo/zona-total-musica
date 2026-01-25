@@ -1398,7 +1398,7 @@ body{
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  
   box-shadow: 0 25px 70px rgba(0,0,0,0.7);
   animation: ztArtistIn 0.3s ease-out;
 }
@@ -1472,5 +1472,6 @@ body{
     transform: scale(1);
   }
 }
+
 
 
