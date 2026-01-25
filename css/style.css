@@ -1390,7 +1390,7 @@ body{
 .zt-artista-panel {
   position: relative;
   width: 620px;              /* 👈 MÁS ESTRECHO */
-  max-height: 560px;         /* 👈 MÁS BAJO */
+  max-height: 510px;         /* 👈 MÁS BAJO */
   margin: auto;
   top: 50%;
   transform: translateY(-50%);
@@ -1425,7 +1425,7 @@ body{
 /* IMAGEN (NO SE TOCA, ya está bien) */
 .zt-artista-header img {
   width: 100%;
-  height: 240px;
+  height: 260px;
   object-fit: cover;
   object-position: center top;
   display: block;
@@ -1470,4 +1470,5 @@ body{
     transform: translateY(-50%) scale(1);
   }
 }
+
 
