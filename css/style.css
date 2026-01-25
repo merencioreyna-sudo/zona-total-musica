@@ -1376,8 +1376,8 @@ body{
    ================================ */
 
 .artista-foco__card {
-  max-width: 620px;
-  max-height: 520px;
+  max-width: 420px;
+  max-height: 320px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -1427,4 +1427,5 @@ body{
     transform: scale(1) translateY(0);
   }
 }
+
 
