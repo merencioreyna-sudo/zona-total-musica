@@ -1391,6 +1391,92 @@ body{
   min-height: 400px;
 }
 
+/* ================================
+   OVERLAY — ARTISTAS EN FOCO
+================================ */
+
+#zt-artista-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zt-artista-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 15, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.zt-artista-panel {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 1000px;
+  background: #0b0d1a;
+  border-radius: 16px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+
+/* COLUMNA IZQUIERDA (ARTISTA) */
+.zt-artista-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zt-artista-info img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.zt-artista-name {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.zt-artista-genre {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* COLUMNA DERECHA (PLAYLIST) */
+.zt-artista-embed iframe {
+  width: 100%;
+  height: 420px;
+  border-radius: 12px;
+}
+
+/* BOTÓN CERRAR */
+.zt-artista-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .zt-artista-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .zt-artista-embed iframe {
+    height: 360px;
+  }
+}
+
 
 
 
