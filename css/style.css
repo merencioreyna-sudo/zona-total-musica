@@ -1392,8 +1392,8 @@ body{
 /* CARD */
 .zt-artista-panel {
   position: relative;
-  width: 420px;
-  max-height: 640px;
+  width: 520px;
+  max-height: 580px;
   background: #0c0c12;
   border-radius: 20px;
   display: flex;
@@ -1472,6 +1472,7 @@ body{
     transform: scale(1);
   }
 }
+
 
 
 
