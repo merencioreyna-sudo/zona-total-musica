@@ -88,3 +88,4 @@ function cerrarOverlay() {
   const old = document.getElementById("zt-universo-overlay");
   if (old) old.remove();
 }
+
