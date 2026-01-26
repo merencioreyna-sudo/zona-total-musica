@@ -135,3 +135,39 @@ document.addEventListener("click", (e) => {
   console.log("▶ Click en track:", source);
   reproducirAudio(source);
 });
+
+// ================================
+// PLAYLISTS CURADAS – OVERLAY
+// ================================
+const playlistOverlay = document.getElementById("zt-playlist-overlay");
+const playlistTitle = document.querySelector(".zt-playlist-title");
+const playlistEmbed = document.querySelector(".zt-playlist-embed");
+const playlistClose = document.querySelector(".zt-playlist-close");
+
+// Abrir playlist curada
+document.addEventListener("click", (e) => {
+  const chip = e.target.closest("[data-playlist-embed]");
+  if (!chip) return;
+
+  const title = chip.textContent.trim();
+  const embed = chip.dataset.playlistEmbed;
+
+  playlistTitle.textContent = title;
+  playlistEmbed.innerHTML = embed;
+
+  playlistOverlay.hidden = false;
+});
+
+// Cerrar
+playlistClose.addEventListener("click", () => {
+  playlistOverlay.hidden = true;
+  playlistEmbed.innerHTML = "";
+});
+
+// Cerrar al hacer click fuera
+playlistOverlay.addEventListener("click", (e) => {
+  if (e.target.classList.contains("zt-playlist-backdrop")) {
+    playlistOverlay.hidden = true;
+    playlistEmbed.innerHTML = "";
+  }
+});
