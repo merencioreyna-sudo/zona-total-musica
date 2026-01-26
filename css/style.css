@@ -1393,8 +1393,8 @@ body{
 /* CARD */
 .zt-artista-panel {
   position: relative;
-  width: 460px;                 /* ajustado, no gigante */
-  max-height: 620px;            /* suficiente para playlist */
+  width: 500px;                 /* ajustado, no gigante */
+  max-height: 650px;            /* suficiente para playlist */
   background: #0c0c12;
   border-radius: 18px;
   display: flex;
@@ -1430,22 +1430,22 @@ body{
 
 /* Nombre y género */
 .zt-artista-header h3 {
-  margin: 0 0 2px;
-  font-size: 18px;
+ 
+  font-size: 20px;
 }
 
 .zt-artista-header p {
   margin: 0;
-  font-size: 14px;
-  opacity: 0.7;
+  font-size: 22px;
+  opacity: 0.8;
 }
 
 /* SEPARADOR SUTIL SUPERIOR */
 .zt-artista-header::after {
   content: "";
   display: block;
-  height: 1px;
-  margin-top: 10px;
+  height: 5px;
+
   background: linear-gradient(
     to right,
     rgba(255,255,255,0),
@@ -1474,7 +1474,7 @@ body{
 .zt-artista-embed::after {
   content: "";
   display: block;
-  height: 1px;
+  height: 5px;
   margin-top: 12px;
   background: linear-gradient(
     to right,
@@ -1495,4 +1495,5 @@ body{
     transform: scale(1);
   }
 }
+
 
