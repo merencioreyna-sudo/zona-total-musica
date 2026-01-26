@@ -1371,7 +1371,8 @@ body{
 }
 
 /* =================================================
-   ARTISTAS EN FOCO – CARD CORRECTO (EDITORIAL)
+   ARTISTAS EN FOCO – CARD FINAL (SIN IMAGEN)
+   Compacto, centrado, playlist protagonista
    ================================================= */
 
 #zt-artista-overlay {
@@ -1392,22 +1393,22 @@ body{
 /* CARD */
 .zt-artista-panel {
   position: relative;
-  width: 520px;
-  max-height: 580px;
+  width: 460px;                 /* ajustado, no gigante */
+  max-height: 620px;            /* suficiente para playlist */
   background: #0c0c12;
-  border-radius: 20px;
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
-  
-  box-shadow: 0 25px 70px rgba(0,0,0,0.7);
-  animation: ztArtistIn 0.3s ease-out;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.7);
+  animation: ztArtistIn 0.28s ease-out;
 }
 
-/* Cerrar */
+/* Botón cerrar */
 .zt-artista-close {
   position: absolute;
-  top: 12px;
-  right: 14px;
+  top: 10px;
+  right: 12px;
   z-index: 5;
   background: none;
   border: none;
@@ -1416,39 +1417,47 @@ body{
   cursor: pointer;
 }
 
-/* HEADER */
+/* HEADER (solo texto, alineado a la izquierda) */
 .zt-artista-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 20px 16px;
-  text-align: center;
+  padding: 16px 18px 10px;      /* sin espacios grandes */
+  text-align: left;
 }
 
-/* ✅ IMAGEN CUADRADA Y BONITA */
+/* Eliminar imagen del header (por si el HTML la trae) */
 .zt-artista-header img {
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 14px;
-  display: block;
+  display: none !important;
 }
 
-/* Texto */
+/* Nombre y género */
 .zt-artista-header h3 {
-  margin: 6px 0 4px;
+  margin: 0 0 2px;
+  font-size: 18px;
 }
 
 .zt-artista-header p {
   margin: 0;
+  font-size: 14px;
   opacity: 0.7;
 }
 
-/* 🎧 PLAYLIST GRANDE Y USABLE */
+/* SEPARADOR SUTIL SUPERIOR */
+.zt-artista-header::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 10px;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0)
+  );
+}
+
+/* PLAYLIST */
 .zt-artista-embed {
-  flex: 1;
-  padding: 16px 18px 20px;
+  flex: 1;                      /* ocupa casi todo el card */
+  padding: 12px 16px;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -1456,25 +1465,34 @@ body{
 /* iframe Audiomack */
 .zt-artista-embed iframe {
   width: 100%;
-  min-height: 520px;      /* 👈 AQUÍ SE ACABA EL PROBLEMA */
+  min-height: 520px;            /* CLAVE: no corta títulos */
   border-radius: 12px;
   display: block;
 }
 
-/* Animación */
+/* SEPARADOR SUTIL INFERIOR */
+.zt-artista-embed::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 12px;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.18),
+    rgba(255,255,255,0)
+  );
+}
+
+/* Animación de entrada */
 @keyframes ztArtistIn {
   from {
     opacity: 0;
-    transform: scale(0.94);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
-
-
-
-
-
 
