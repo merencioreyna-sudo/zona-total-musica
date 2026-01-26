@@ -1425,15 +1425,7 @@ body{
   text-align: center;
 }
 
-/* ✅ IMAGEN CUADRADA Y BONITA */
-.zt-artista-header img {
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 14px;
-  display: block;
-}
+
 
 /* Texto */
 .zt-artista-header h3 {
@@ -1472,6 +1464,7 @@ body{
     transform: scale(1);
   }
 }
+
 
 
 
