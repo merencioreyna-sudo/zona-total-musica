@@ -136,16 +136,5 @@ document.addEventListener("click", (e) => {
   reproducirAudio(source);
 });
 
-// PLAYLISTS CURADAS – OVERLAY
-document.addEventListener("click", (e) => {
-  const chip = e.target.closest("[data-playlist-embed]");
-  if (!chip) return;
 
-  const title = chip.textContent.trim();
-  const embed = chip.dataset.playlistEmbed;
 
-  playlistTitle.textContent = title;
-  playlistEmbed.innerHTML = embed;
-
-  playlistOverlay.hidden = false;
-});
