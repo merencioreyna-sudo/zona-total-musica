@@ -1,5 +1,8 @@
-console.log("🎧 Player cargado (SoundCloud + Audio Directo)");
+console.log("🎧 Player cargado (Híbrido: Audio Directo + Embeds)");
 
+// ================================
+// CONTENEDOR DEL PLAYER
+// ================================
 let playerContainer = document.getElementById("sc-player-container");
 
 // Si no existe, lo creamos dentro del bloque editorial
@@ -13,7 +16,7 @@ if (!playerContainer) {
   }
 }
 
-// Estado inicial visible
+// Estado inicial
 if (playerContainer) {
   playerContainer.innerHTML = `
     <p style="opacity:0.6; font-size:14px; text-align:center;">
@@ -23,37 +26,56 @@ if (playerContainer) {
 }
 
 // ================================
-// REPRODUCIR AUDIO (AUTO-DETECCIÓN)
+// FUNCIÓN PRINCIPAL (HÍBRIDA)
 // ================================
-function reproducirAudio(url) {
-  if (!url) {
-    console.warn("⚠️ No hay URL de audio para reproducir");
+function reproducirAudio(source) {
+  if (!source) {
+    console.warn("⚠️ No hay fuente de audio para reproducir");
     return;
   }
 
-  // Detectar tipo de fuente
-  const esSoundCloud = url.includes("soundcloud.com");
-  const esAudioDirecto = url.match(/\.(mp3|m4a|ogg)$/i);
+  // Limpiar contenedor
+  if (playerContainer) {
+    playerContainer.innerHTML = "";
+  }
 
-  if (esSoundCloud) {
-    reproducirSoundCloud(url);
+  // ================================
+  // 1️⃣ EMBED (iframe: Audiomack, YouTube, SoundCloud embed, etc.)
+  // ================================
+  if (typeof source === "string" && source.trim().startsWith("<iframe")) {
+    playerContainer.innerHTML = source;
+    console.log("▶ Reproduciendo embed externo");
     return;
   }
 
-  if (esAudioDirecto) {
-    reproducirAudioDirecto(url);
+  // ================================
+  // 2️⃣ SOUNDCLOUD (URL NORMAL)
+  // ================================
+  if (typeof source === "string" && source.includes("soundcloud.com")) {
+    reproducirSoundCloud(source);
     return;
   }
 
-  console.warn("⚠️ Fuente de audio no soportada:", url);
+  // ================================
+  // 3️⃣ AUDIO DIRECTO (mp3 / m4a / ogg)
+  // ================================
+  if (typeof source === "string" && source.match(/\.(mp3|m4a|ogg|wav)$/i)) {
+    reproducirAudioDirecto(source);
+    return;
+  }
+
+  // ================================
+  // 4️⃣ NO SOPORTADO
+  // ================================
+  console.warn("⚠️ Fuente de audio no soportada:", source);
 }
 
 // ================================
-// SOUNDCLOUD (IGUAL QUE ANTES)
+// SOUNDCLOUD (EMBED AUTOMÁTICO)
 // ================================
 function reproducirSoundCloud(trackUrl) {
   if (!trackUrl) {
-    console.warn("⚠️ No hay URL de SoundCloud para reproducir");
+    console.warn("⚠️ No hay URL de SoundCloud");
     return;
   }
 
@@ -74,10 +96,12 @@ function reproducirSoundCloud(trackUrl) {
     playerContainer.innerHTML = "";
     playerContainer.appendChild(iframe);
   }
+
+  console.log("▶ Reproduciendo SoundCloud:", trackUrl);
 }
 
 // ================================
-// AUDIO DIRECTO (MP3 / M4A / OGG)
+// AUDIO DIRECTO (HTML5)
 // ================================
 function reproducirAudioDirecto(url) {
   let audio = document.getElementById("zt-audio");
@@ -96,19 +120,18 @@ function reproducirAudioDirecto(url) {
   }
 
   audio.src = url;
-  audio.play();
-
+  audio.play().catch(() => {});
   console.log("▶ Reproduciendo audio directo:", url);
 }
 
 // ================================
-// ESCUCHA CLICKS (TOP, NUEVOS, ETC.)
+// ESCUCHA DE CLICKS (TOP, ETC.)
 // ================================
 document.addEventListener("click", (e) => {
   const card = e.target.closest("[data-track-id]");
   if (!card) return;
 
-  const trackUrl = card.dataset.trackId;
-  console.log("▶ Reproduciendo:", trackUrl);
-  reproducirAudio(trackUrl);
+  const source = card.dataset.trackId;
+  console.log("▶ Click en track:", source);
+  reproducirAudio(source);
 });
