@@ -1496,4 +1496,150 @@ body{
   }
 }
 
+/* =================================================
+   PLAYLISTS CURADAS – OVERLAY (ESTILO PROPIO)
+   ================================================= */
+
+#zt-playlist-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#zt-playlist-overlay[hidden] {
+  display: none;
+}
+
+/* Fondo */
+.zt-playlist-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(20, 20, 40, 0.85),
+    rgba(5, 6, 12, 0.95)
+  );
+  backdrop-filter: blur(4px);
+}
+
+/* Panel */
+.zt-playlist-panel {
+  position: relative;
+  width: 520px;
+  max-height: 640px;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 20, 40, 0.95),
+    rgba(12, 12, 22, 0.95)
+  );
+  border-radius: 22px;
+  padding: 22px 22px 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 30px 80px rgba(0,0,0,0.75);
+  animation: ztPlaylistIn 0.35s ease-out;
+}
+
+/* Cerrar */
+.zt-playlist-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.zt-playlist-close:hover {
+  opacity: 1;
+}
+
+/* Título (solo Salsa / Hip Hop / etc.) */
+.zt-playlist-title {
+  margin: 6px 0 10px;
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Separador sutil */
+.zt-playlist-divider {
+  height: 1px;
+  margin-bottom: 14px;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.25),
+    rgba(255,255,255,0)
+  );
+}
+
+/* Contenedor playlist */
+.zt-playlist-embed {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 6px;
+  position: relative;
+}
+
+/* Fade superior e inferior */
+.zt-playlist-embed::before,
+.zt-playlist-embed::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  right: 0;
+  height: 24px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.zt-playlist-embed::before {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(12,12,22,0.9),
+    rgba(12,12,22,0)
+  );
+}
+
+.zt-playlist-embed::after {
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    rgba(12,12,22,0.9),
+    rgba(12,12,22,0)
+  );
+}
+
+/* iframe */
+.zt-playlist-embed iframe {
+  width: 100%;
+  min-height: 520px;
+  border-radius: 14px;
+  display: block;
+}
+
+/* Animación */
+@keyframes ztPlaylistIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 
