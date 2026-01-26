@@ -1643,9 +1643,5 @@ body{
 }
 
 
-/* APAGAR BLOQUE PLAYLISTS CURADAS (SIN ROMPER NADA) */
-.playlists,
-.section-title + .playlists {
-  display: none !important;
-}
+
 
