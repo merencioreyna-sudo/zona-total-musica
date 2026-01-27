@@ -1650,6 +1650,9 @@ body{
   position: fixed;
   inset: 0;
   z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .zt-universo-backdrop {
@@ -1659,25 +1662,23 @@ body{
 }
 
 .zt-universo-panel {
+  position: relative;
   max-width: 900px;
+  width: 100%;
   height: 85vh;
-  margin: auto;
   background: #0f0f14;
   border-radius: 16px;
   padding: 16px;
   display: flex;
   flex-direction: column;
-}
 
-@keyframes universoFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  /* 🔒 nitidez total */
+  opacity: 1;
+  filter: none;
+  backdrop-filter: none;
+
+  /* 🔒 scroll controlado */
+  overflow: hidden;
 }
 
 .zt-universo-close {
@@ -1690,6 +1691,7 @@ body{
   font-size: 20px;
   cursor: pointer;
   opacity: .7;
+  z-index: 2;
 }
 
 .zt-universo-close:hover {
@@ -1702,6 +1704,7 @@ body{
   font-size: 18px;
   letter-spacing: .5px;
   color: #f2f2f2;
+  flex-shrink: 0;
 }
 
 .zt-universo-list {
@@ -1712,16 +1715,13 @@ body{
   gap: 20px;
 }
 
-.zt-universo-item {
-  margin-bottom: 14px;
-}
-
 .zt-universo-item iframe {
   width: 100%;
-  height: 420px; /* altura cómoda para ver canciones */
+  height: 420px;
   border: none;
   border-radius: 12px;
 }
+
 
 
 
