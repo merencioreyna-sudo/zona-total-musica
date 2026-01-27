@@ -1723,6 +1723,22 @@ body{
 }
 
 
+/* ================================
+   UNIVERSOS — AJUSTE VISUAL EMBED
+   Compensa margin interno del iframe
+================================ */
+
+.zt-universo-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.zt-universo-item iframe {
+  position: relative;
+  top: -20px;           /* ← compensa el margin-top interno */
+  height: 440px;        /* ← recupera espacio perdido */
+}
+
 
 
 
