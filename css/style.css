@@ -1722,6 +1722,37 @@ body{
   border-radius: 12px;
 }
 
+/* ================================
+   PULIDO FINAL — SCROLL & MENÚ
+================================ */
+
+/* 1️⃣ Scroll suave global */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 2️⃣ Margen al llegar por ancla */
+#top-zona-total,
+#universos-musicales,
+#artistas-en-foco {
+  scroll-margin-top: 80px;
+}
+
+/* 3️⃣ Hover del menú */
+.nav a {
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* 4️⃣ Estado activo del menú */
+.nav a.active {
+  background: linear-gradient(135deg, #ff4fd8, #7a5cff);
+  color: #fff;
+}
+
 
 
 
