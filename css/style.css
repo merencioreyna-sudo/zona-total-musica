@@ -1717,27 +1717,13 @@ body{
 
 .zt-universo-item iframe {
   width: 100%;
-  height: 420px;
+  height: 560px;   /* ← MÁS ALTO */
   border: none;
   border-radius: 12px;
 }
 
 
-/* ================================
-   UNIVERSOS — AJUSTE VISUAL EMBED
-   Compensa margin interno del iframe
-================================ */
 
-.zt-universo-item {
-  position: relative;
-  overflow: hidden;
-}
-
-.zt-universo-item iframe {
-  position: relative;
-  top: -20px;           /* ← compensa el margin-top interno */
-  height: 440px;        /* ← recupera espacio perdido */
-}
 
 
 
