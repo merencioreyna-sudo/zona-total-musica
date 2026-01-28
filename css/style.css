@@ -1754,41 +1754,4 @@ html {
 }
 
 
-/* ================================
-   RESPONSIVE SEGURO — MÓVIL
-   (NO rompe desktop)
-================================ */
-
-@media (max-width: 768px) {
-
-  /* Ocultar sidebar completamente */
-  .sidebar,
-  aside.sidebar {
-    display: none !important;
-  }
-
-  /* El contenedor principal ocupa todo */
-  .app {
-    display: block;
-  }
-
-  /* Contenido a ancho completo */
-  .content {
-    width: 100%;
-    margin: 0;
-    padding: 16px;
-  }
-
-  /* Evitar cortes raros */
-  body {
-    overflow-x: hidden;
-  }
-
-}
-
-
-
-
-
-
 
