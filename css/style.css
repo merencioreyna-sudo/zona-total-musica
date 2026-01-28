@@ -1938,3 +1938,16 @@ html {
 
 }
 
+/* ================================
+   UNIVERSOS — PRIORIDAD A PLAYLIST
+   (más lista, menos imagen, sin cortar)
+================================ */
+
+@media (max-width: 768px) {
+
+  .zt-universo-item iframe {
+    height: clamp(300px, 50vh, 380px) !important;
+  }
+
+}
+
