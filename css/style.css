@@ -1753,5 +1753,84 @@ html {
   color: #fff;
 }
 
+/* ================================
+   RESPONSIVE REAL — MÓVIL
+   (corrige desorden sin romper desktop)
+================================ */
+
+@media (max-width: 768px) {
+
+  /* Reset de layout desktop */
+  .app {
+    display: block !important;
+    width: 100%;
+  }
+
+  /* Ocultar sidebar */
+  .sidebar,
+  aside.sidebar {
+    display: none !important;
+  }
+
+  /* Contenido principal */
+  .content {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+  }
+
+  /* Todas las secciones en columna */
+  section,
+  .zt-top-layout,
+  .zt-top-side,
+  .albums,
+  .zt-universe-grid,
+  .zt-artists-row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px;
+  }
+
+  /* Cards al 100% */
+  article,
+  .album,
+  .zt-top-main,
+  .zt-top-mini,
+  .zt-artist {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Imágenes seguras */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Títulos legibles */
+  h1 {
+    font-size: 28px !important;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 22px !important;
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 15px !important;
+  }
+
+  /* Evitar scroll horizontal */
+  body {
+    overflow-x: hidden !important;
+  }
+
+}
+
 
 
