@@ -1914,3 +1914,27 @@ html {
   }
 
 }
+
+/* ================================
+   FIX DEFINITIVO — ESPACIO LATERAL MÓVIL
+   (corrige padding global *)
+================================ */
+
+@media (max-width: 768px) {
+
+  /* Anular padding global heredado */
+  * {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Mantener respiración controlada */
+  .content,
+  main.content,
+  section {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+}
+
