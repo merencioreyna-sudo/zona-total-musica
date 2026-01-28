@@ -1833,5 +1833,37 @@ html {
 }
 
 
+/* ================================
+   AJUSTES FINOS — MÓVIL
+   (hero + overlay universos)
+================================ */
+
+@media (max-width: 768px) {
+
+  /* ===== HERO ===== */
+
+  .hero-music {
+    height: 38vh !important;
+    min-height: 260px !important;
+    max-height: 420px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .hero-content {
+    padding: 12px !important;
+  }
+
+  /* ===== OVERLAY UNIVERSOS ===== */
+
+  .zt-universo-panel {
+    width: calc(100% - 24px) !important;
+    max-width: 100% !important;
+    margin: 12px auto !important;
+    padding: 14px !important;
+  }
+
+}
+
 
 
