@@ -1939,4 +1939,19 @@ html {
 }
 
 
+/* ================================
+   UNIVERSOS — DAR AIRE AL CARD
+   (más playlist, sin tocar la web)
+================================ */
+
+/* SOLO dentro del overlay */
+#zt-universo-overlay .zt-universo-panel {
+  padding-bottom: 20px;
+}
+
+/* SOLO los embeds dentro del overlay */
+#zt-universo-overlay .zt-universo-item iframe {
+  height: 420px; /* más espacio para la lista */
+}
+
 
