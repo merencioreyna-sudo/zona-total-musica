@@ -1834,36 +1834,40 @@ html {
 
 
 /* ================================
-   AJUSTES FINOS — MÓVIL
-   (hero + overlay universos)
+   RESPONSIVE REAL — MÓVIL UNIVERSAL
+   (hero + overlay sin romper nada)
 ================================ */
 
 @media (max-width: 768px) {
 
-  /* ===== HERO ===== */
+  /* ===== HERO FLUIDO REAL ===== */
 
   .hero-music {
-    height: 38vh !important;
-    min-height: 260px !important;
-    max-height: 420px !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    height: auto !important;
+    min-height: clamp(240px, 45vh, 380px) !important;
+    padding-left: env(safe-area-inset-left) !important;
+    padding-right: env(safe-area-inset-right) !important;
+  }
+
+  .hero-art-real {
+    inset: -10% !important;
   }
 
   .hero-content {
-    padding: 12px !important;
+    padding: clamp(10px, 4vw, 16px) !important;
   }
 
-  /* ===== OVERLAY UNIVERSOS ===== */
+  /* ===== OVERLAY UNIVERSOS FLUIDO ===== */
 
   .zt-universo-panel {
-    width: calc(100% - 24px) !important;
-    max-width: 100% !important;
-    margin: 12px auto !important;
-    padding: 14px !important;
+    width: 100% !important;
+    max-width: min(100%, 680px) !important;
+    margin: clamp(8px, 3vw, 16px) auto !important;
+    padding: clamp(12px, 4vw, 18px) !important;
+  }
+
+  .zt-universo-item iframe {
+    height: clamp(320px, 60vh, 480px) !important;
   }
 
 }
-
-
-
