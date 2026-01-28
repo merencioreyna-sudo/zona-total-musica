@@ -1938,6 +1938,50 @@ html {
 
 }
 
+/* ================================
+   Zona Total Música – Solicitudes
+   ================================ */
+
+.zt-solicitudes {
+  background: linear-gradient(180deg, #0b0b0b, #121212);
+  border: 1px solid rgba(255, 0, 153, 0.25);
+  border-radius: 18px;
+  padding: 32px 24px;
+  margin: 60px auto;
+  max-width: 680px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(255, 0, 153, 0.08);
+}
+
+.zt-solicitudes h3 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.zt-solicitudes p {
+  font-size: 0.95rem;
+  color: #bbbbbb;
+  margin-bottom: 22px;
+}
+
+.btn-whatsapp {
+  display: inline-block;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: #ff0099;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 0 20px rgba(255, 0, 153, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(255, 0, 153, 0.75);
+}
+
 
 
 
