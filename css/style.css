@@ -1871,3 +1871,46 @@ html {
   }
 
 }
+
+/* ================================
+   AJUSTE DEFINITIVO DE ANCHO — MÓVIL
+   (corrige estrechez y textos)
+================================ */
+
+@media (max-width: 768px) {
+
+  /* Contenedor principal: ancho real */
+  .content,
+  main.content {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Cards grandes ocupan todo */
+  .zt-top,
+  .zt-top-layout,
+  .albums,
+  .zt-universes,
+  .zt-artists {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Universos: evitar que el texto se salga */
+  .zt-universe-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+  }
+
+  .zt-universe {
+    white-space: normal !important;
+    text-align: center;
+    padding: 12px 10px !important;
+    font-size: 14px !important;
+    line-height: 1.2;
+  }
+
+}
