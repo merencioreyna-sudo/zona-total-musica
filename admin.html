@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Zona Total Música</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #12121a;
+            padding: 24px;
+            border-radius: 24px;
+        }
+        h1, h2, h3 {
+            margin-bottom: 20px;
+            color: #ff4fa3;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #1e1e2a;
+            color: #fff;
+            font-size: 14px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        button {
+            background: #ff4fa3;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #ff6bb5;
+            transform: scale(1.02);
+        }
+        .btn-volver {
+            background: #333;
+            margin-bottom: 20px;
+        }
+        .btn-volver:hover {
+            background: #555;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            background: rgba(255, 79, 163, 0.2);
+            color: #ff4fa3;
+        }
+        .eliminar-btn {
+            background: #dc3545;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .eliminar-btn:hover {
+            background: #c82333;
+        }
+        .editar-btn {
+            background: #ffc107;
+            color: #000;
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .editar-btn:hover {
+            background: #e0a800;
+        }
+        .form-card {
+            background: #1e1e2a;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="btn-volver" id="btnVolver">← Volver a la página principal</button>
+        <h1>Panel Administrador</h1>
+        
+        <div class="form-card">
+            <h2>Agregar/Editar Canción o Artista</h2>
+            <form id="admin-form">
+                <input type="hidden" id="edit-id" value="">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Título (canción) / Nombre (artista)</label>
+                        <input type="text" id="titulo" placeholder="Ej: Blinding Lights" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Artista</label>
+                        <input type="text" id="artista" placeholder="Ej: The Weeknd" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="categoria" required>
+                            <option value="">Seleccionar</option>
+                            <option value="salsa">Salsa</option>
+                            <option value="pop">Pop</option>
+                            <option value="hip-hop">Hip-Hop</option>
+                            <option value="romántico">Romántico</option>
+                            <option value="baladas">Baladas</option>
+                            <option value="rock">Rock</option>
+                            <option value="bachata">Bachata</option>
+                            <option value="reggaetón">Reggaetón</option>
+                            <option value="house">House</option>
+                            <option value="variado">Variado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen (URL)</label>
+                        <input type="text" id="imagen" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Audio / Embed URL</label>
+                        <input type="text" id="audio_url" placeholder="URL de SoundCloud o embed">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="tipo" required>
+                            <option value="TRUE">Top (canción suelta)</option>
+                            <option value="FALSE">Artista (playlist completa)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Guardar</button>
+                <button type="button" id="btn-cancelar" style="background: #666; margin-left: 10px;">Cancelar edición</button>
+            </form>
+        </div>
+        
+        <h3>Contenido actual</h3>
+        <div style="overflow-x: auto;">
+            <table id="tabla-contenido">
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Título</th><th>Artista</th><th>Categoría</th><th>Tipo</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-body">
+                    <tr><td colspan="6">Cargando datos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzWyaApVPMsqjx1gFXdXwtSnYBeJXexsxdpp1WcDqDXrF4lsrJ61LKnuSmtMdhLGqh/exec";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJpv1h9XBYo7gJPLBx4U_1IiRkf0v-y2W2Z_o-O3V67aPSqAzvBdAomO7SPy-dVSYw3cyUwD3C0oVJ/pub?gid=369911819&single=true&output=csv";
+        
+        let datosActuales = [];
+        
+        function cargarDatos() {
+            fetch(CSV_URL + "&t=" + new Date().getTime())
+                .then(res => res.text())
+                .then(csv => {
+                    Papa.parse(csv, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: (results) => {
+                            datosActuales = results.data;
+                            pintarTabla();
+                        }
+                    });
+                })
+                .catch(err => console.error("Error:", err));
+        }
+        
+        function pintarTabla() {
+            const tbody = document.getElementById("tabla-body");
+            if (!tbody) return;
+            tbody.innerHTML = "";
+            
+            datosActuales.forEach((item, index) => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = item.id || index + 1;
+                row.insertCell(1).textContent = item.titulo || item.nombre || "-";
+                row.insertCell(2).textContent = item.artista || "-";
+                row.insertCell(3).textContent = item.categoria || "-";
+                row.insertCell(4).textContent = item.top === "TRUE" ? "Top" : "Artista";
+                
+                const acciones = row.insertCell(5);
+                const btnEditar = document.createElement("button");
+                btnEditar.textContent = "Editar";
+                btnEditar.className = "editar-btn";
+                btnEditar.onclick = () => editarItem(item, index);
+                const btnEliminar = document.createElement("button");
+                btnEliminar.textContent = "Eliminar";
+                btnEliminar.className = "eliminar-btn";
+                btnEliminar.onclick = () => eliminarItem(item.id || index + 1);
+                acciones.appendChild(btnEditar);
+                acciones.appendChild(btnEliminar);
+            });
+        }
+        
+        function editarItem(item, index) {
+            document.getElementById("edit-id").value = item.id || index + 1;
+            document.getElementById("titulo").value = item.titulo || "";
+            document.getElementById("artista").value = item.artista || "";
+            document.getElementById("categoria").value = item.categoria || "";
+            document.getElementById("imagen").value = item.imagen || "";
+            document.getElementById("audio_url").value = item.audio_url || "";
+            document.getElementById("tipo").value = item.top === "TRUE" ? "TRUE" : "FALSE";
+        }
+        
+        function eliminarItem(id) {
+            if (!confirm("¿Eliminar este registro?")) return;
+            fetch(`${SCRIPT_URL}?action=delete&id=${id}`)
+                .then(res => res.text())
+                .then(() => {
+                    alert("Eliminado");
+                    location.reload();
+                    cargarDatos();
+                    localStorage.setItem("actualizarRecetas", Date.now());
+                })
+                .catch(err => alert("Error: " + err));
+        }
+        
+        document.getElementById("admin-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const id = document.getElementById("edit-id").value || Date.now();
+            const data = {
+                id: id,
+                titulo: document.getElementById("titulo").value,
+                artista: document.getElementById("artista").value,
+                categoria: document.getElementById("categoria").value,
+                imagen: document.getElementById("imagen").value,
+                audio_url: document.getElementById("audio_url").value,
+                top: document.getElementById("tipo").value
+            };
+            
+            fetch(`${SCRIPT_URL}?action=update`, {
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(response => {
+                if (response.status === "ok") {
+                    alert("Guardado correctamente");
+                    document.getElementById("admin-form").reset();
+                    document.getElementById("edit-id").value = "";
+                    cargarDatos();
+                    localStorage.setItem("actualizarRecetas", Date.now());
+                } else {
+                    alert("Error al guardar");
+                }
+            })
+            .catch(err => alert("Error: " + err));
+        });
+        
+        document.getElementById("btn-cancelar").addEventListener("click", () => {
+            document.getElementById("admin-form").reset();
+            document.getElementById("edit-id").value = "";
+        });
+        
+        document.getElementById("btnVolver").addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
+        
+        cargarDatos();
+    </script>
+</body>
+</html>
