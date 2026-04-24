@@ -50,7 +50,13 @@ function cargarDatos() {
                 }
             });
         })
-        .catch(err => console.error("Error:", err));
+        .catch(err => {
+    console.error("Error:", err);
+    const container = document.getElementById("top-grid");
+    if (container) {
+        container.innerHTML = "<div style='text-align:center; padding:20px; color:#ff4fa3;'>Error cargando datos</div>";
+    }
+});
 }
 
 function normalizarFila(fila) {
@@ -86,6 +92,7 @@ function pintarTop(canciones) {
             const player = document.getElementById("player-global");
             if (!player) return;
             player.style.display = "block";
+            player.classList.add("show");
             player.innerHTML = "";
             if (url.includes("soundcloud.com")) {
                 player.innerHTML = `<iframe width="100%" height="90" src="https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&auto_play=true&color=%23ff4fa3" frameborder="no"></iframe>`;
@@ -126,10 +133,11 @@ function mostrarArtistas(categoria) {
         if (song.categoria === categoria && song.artista && (song.top === false || song.top === "FALSE")) {
             if (!artistasMap.has(song.artista)) {
                 artistasMap.set(song.artista, {
-                    nombre: song.artista,
-                    imagen: song.imagen,
-                    audio_url: song.audio_url
-                });
+    nombre: song.artista,
+    titulo: song.titulo,
+    imagen: song.imagen,
+    audio_url: song.audio_url
+});
             }
         }
     });
@@ -152,9 +160,10 @@ function mostrarArtistas(categoria) {
         const card = document.createElement("div");
         card.className = "artista-card";
         card.innerHTML = `
-            <img src="${artista.imagen || 'https://via.placeholder.com/90'}" alt="${artista.nombre}">
-            <h4>${artista.nombre}</h4>
-        `;
+    <img src="${artista.imagen || 'https://via.placeholder.com/90'}" alt="${artista.nombre}">
+    <h4>${artista.nombre}</h4>
+    <p>${artista.titulo || ''}</p>
+`;
         card.addEventListener("click", () => {
     const url = artista.audio_url;
     if (!url) return;
@@ -297,23 +306,31 @@ const searchIcon = document.querySelector(".search-field i");
 
 function buscarCanciones() {
     const termino = searchInput.value.toLowerCase().trim();
-    const todasLasCards = document.querySelectorAll(".top-card");
-    
-    if (termino === "") {
-        todasLasCards.forEach(card => card.style.display = "");
+
+    if (!termino) {
+        const topsIniciales = allSongs.filter(s => s.top === true || s.top === "TRUE");
+        pintarTop(topsIniciales.slice(0, 6));
         return;
     }
-    
-    todasLasCards.forEach(card => {
-        const titulo = card.querySelector("h3")?.textContent.toLowerCase() || "";
-        const artista = card.querySelector("p")?.textContent.toLowerCase() || "";
-        
-        if (titulo.includes(termino) || artista.includes(termino)) {
-            card.style.display = "";
-        } else {
-            card.style.display = "none";
-        }
+
+    const resultados = allSongs.filter(song => {
+        return (
+            (song.titulo && song.titulo.toLowerCase().includes(termino)) ||
+            (song.artista && song.artista.toLowerCase().includes(termino))
+        );
     });
+
+    pintarTop(resultados.slice(0, 6));
+
+    const categoriasEncontradas = new Set(
+        resultados.map(s => s.categoria).filter(Boolean)
+    );
+
+    const primeraCategoria = [...categoriasEncontradas][0];
+
+    if (primeraCategoria) {
+        mostrarArtistas(primeraCategoria);
+    }
 }
 
 if (searchInput) {
