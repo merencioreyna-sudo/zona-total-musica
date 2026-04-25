@@ -973,21 +973,7 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-    .categoria-artistas {
-        position: relative;
-    }
-
-    .categoria-artistas::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 40px;
-        height: 100%;
-        pointer-events: none;
-
-        background: linear-gradient(to left, rgba(255, 79, 163, 0.4), transparent);
-        filter: blur(6px);
-    }
+.player-artista iframe {
+    width: 100% !important;
+    max-width: none !important;
 }
