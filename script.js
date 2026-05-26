@@ -175,8 +175,25 @@ function mostrarArtistas(categoria) {
         playerArtista.innerHTML = url;
     } else if (url.includes("soundcloud.com")) {
         let cleanUrl = url.split('?')[0];
-let soundcloudSrc = "https://w.soundcloud.com/player/?url=" + encodeURIComponent(cleanUrl) + "&auto_play=true&color=%23ff4fa3";
-playerArtista.innerHTML = `<iframe width="100%" height="250" src="${soundcloudSrc}" frameborder="no"></iframe>`;
+
+let soundcloudSrc =
+"https://w.soundcloud.com/player/?url=" +
+encodeURIComponent(cleanUrl) +
+"&auto_play=true" +
+"&color=%23ff4fa3" +
+"&display=playlist" +
+"&visual=false";
+
+playerArtista.innerHTML = `
+<iframe 
+    width="100%" 
+    height="360" 
+    scrolling="no" 
+    frameborder="no" 
+    allow="autoplay"
+    src="${soundcloudSrc}">
+</iframe>`;
+
     } else {
         const audio = document.createElement("audio");
         audio.controls = true;
