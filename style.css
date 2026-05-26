@@ -383,10 +383,25 @@ body {
     padding: 0;
 }
 
-.player-artista iframe {
+.player-artista {
     width: 100%;
-    height: 350px;
-    border-radius: 12px;
+    overflow: hidden;
+    padding-bottom: 12px;
+}
+
+.player-artista iframe {
+    width: 100% !important;
+    height: 630px !important;
+    border: none;
+    border-radius: 18px;
+    display: block;
+    background: #12121a;
+}
+
+@media (max-width: 768px) {
+    .player-artista iframe {
+        height: 630px !important;
+    }
 }
 
 .player-artista audio {
@@ -965,6 +980,7 @@ body {
         overflow-x: auto;
         gap: 20px;
         padding-bottom: 10px;
+        padding-right: 20px;
         justify-content: flex-start;
     }
 
@@ -972,6 +988,26 @@ body {
         display: none;
     }
 }
+
+/* Sombra lateral derecha suave */
+@media (max-width: 768px) {
+    .categories-section + .top-section + .categoria-artistas {
+        position: relative;
+    }
+
+    .categoria-artistas::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 70px;
+        bottom: 20px;
+        width: 40px;
+        background: linear-gradient(to left, #0a0a0f, transparent);
+        pointer-events: none;
+        border-radius: 20px 0 0 20px;
+    }
+}
+
 
 .player-artista iframe {
     width: 100% !important;
